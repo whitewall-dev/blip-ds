@@ -1,23 +1,37 @@
-import { Story, ArgsTable, Canvas } from '@storybook/blocks';
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
 import * as ImageStories from './image.stories';
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
 
 # Image
 
+[Design e Acessibilidade](https://www.figma.com/design/2bBnJVKkG09JPWCFBIcD1y/%5BDS%5D-Components?m=auto&node-id=22042-86&t=TyXNmrAZbhl7DmWw-1)
 
-## Overview
+<br></br>
 
-Image allows users to render image media with code.
+## Estrutura
+
+O **Image** permite que os usuários renderizem mídias de imagem com código.
 
 <Canvas of={ImageStories.Properties}></Canvas>
 
 <Meta isTemplate />
 
-The following properties that are shared by Image.
+As seguintes propriedades são compartilhadas pelo **Image**.
 
 <Controls />
 
+<br></br>
 
-## Build on React
+## Fallback
+
+### Imagem quebrada
+
+Caso a o link da imagem esteja quebrado, uma ilustração para representar esse fallback será renderizado.
+
+### Imagem não encontrada
+
+Caso a propriedade não seja preenchida ou receba vazio, uma ilustração para representar esse fallback será renderizado.
+
+<br></br>
+## Usando em React
 
 <Source of={ImageStories.FrameworkReact} />

@@ -4,31 +4,55 @@ import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source 
 
 # Avatar Single
 
-[Component Detail](https://design.blip.ai/d/UbKsV1JhXTK4/componentes-desenvolvimento#/avatar/visao-geral-avatar)
-&nbsp;|&nbsp;
-[Component Design](https://design.blip.ai/d/UbKsV1JhXTK4/design-1#/avatar/resumo-avatar)
-&nbsp;|&nbsp;
-[Accessibility](https://design.blip.ai/d/UbKsV1JhXTK4/design-1#/avatar/acessibilidade-avatar)
+[Design e Acessibilidade](https://www.figma.com/design/2bBnJVKkG09JPWCFBIcD1y/%5BDS%5D-Components?m=auto&node-id=1439-13354&t=TyXNmrAZbhl7DmWw-1)
 
-## Overview
 
-These are circular images to represent the user.
+<br></br>
+## Estrutura
 
-<Canvas of={AvatarStories.Properties} >
-</Canvas>
+Imagens circulares usadas para representar o usuário.
+
+<Canvas of={AvatarStories.Properties} />
 
 <Meta isTemplate />
 
-The following properties that are shared by Avatar.
+<br></br>
+## Propriedades
+
+As seguintes propriedades são compartilhadas pelo **Avatar**.
 
 <Controls />
 
-## Events
+<br></br>
+## Eventos
 
-Some examples of Avatar Events.
+Alguns exemplos de eventos do **Avatar**.
+
+<table>
+    <thead>
+        <tr>
+            <th>Evento</th>
+            <th>Descrição</th>
+            <th>Tipo</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>bdsClickAvatar</code></td>
+            <td>Emite um evento quando o avatar é clicado.</td>
+            <td><code>CustomEvent&lt;void&gt;</code></td>
+        </tr>
+        <tr>
+            <td><code>bdsImageUpload</code></td>
+            <td>Emite um evento quando um arquivo é enviado pelo upload.</td>
+            <td><code>CustomEvent&lt;void&gt;</code></td>
+        </tr>
+    </tbody>
+</table>
 
 <Source of={AvatarStories.Events} />
 
-## Build on React
+<br></br>
+## Usando em React
 
 <Source of={AvatarStories.FrameworkReact} />

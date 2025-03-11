@@ -296,7 +296,7 @@
   },
   "dominica-flag": {
     "code": "+1-767",
-    "name": "dominica",
+    "name": "Dominica",
     "isoCode": "DM / DMA"
   },
   "ecuador-flag": {
@@ -601,7 +601,7 @@
   },
   "kosovo-flag": {
     "code": "+383",
-    "name": "kosovo",
+    "name": "Kosovo",
     "isoCode": "XK / XKX"
   },
   "kuwait-flag": {
@@ -661,7 +661,7 @@
   },
   "macedonia-flag": {
     "code": "+389",
-    "name": "macedônia",
+    "name": "Macedônia",
     "isoCode": "MK / MKD"
   },
   "madagascar-flag": {
@@ -671,10 +671,10 @@
   },
   "malawi-flag": {
     "code": "+265",
-    "name": "maláui",
+    "name": "Malawi",
     "isoCode": "MW / MWI"
   },
-  "malaysia-flag": {
+  "malasya-flag": {
     "code": "+60",
     "name": "Malásia",
     "isoCode": "MY / MYS"
@@ -706,7 +706,7 @@
   },
   "mauritius-flag": {
     "code": "+230",
-    "name": "maurício",
+    "name": "Maurício",
     "isoCode": "MU / MUS"
   },
   "mayotte-flag": {
@@ -991,7 +991,7 @@
   },
   "san-marino-flag": {
     "code": "+378",
-    "name": "São marino",
+    "name": "San Marino",
     "isoCode": "SM / SMR"
   },
   "sao-tome-and-principe-flag": {
@@ -1096,7 +1096,7 @@
   },
   "thailand-flag": {
     "code": "+66",
-    "name": "tailândia",
+    "name": "Tailândia",
     "isoCode": "TH / THA"
   },
   "east-timor-flag": {

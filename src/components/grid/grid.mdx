@@ -1,22 +1,27 @@
-import { Story, ArgsTable, Canvas } from '@storybook/blocks';
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
 import * as GridStories from './grid.stories';
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
 
 # Grid
 
+[Design e Acessibilidade](https://www.figma.com/design/EkSnl6iMfe5FvjYJKmxatM/%5BDS%5D-1.24.2--Tokens?m=auto&node-id=6576-10706&t=jxyfkgsfiGXG1Cnn-1)
 
-## Overview
 
-Grid allows users to select a date or a range of dates.
+<br></br>
+
+## Estrutura
+
+A UI responsiva do Blip DS adapta-se ao tamanho e orientação da tela, garantindo a consistência entre layouts.
 
 <Canvas of={GridStories.Properties}></Canvas>
 
 <Meta isTemplate />
 
-The following properties that are shared by Grid.
+As seguintes propriedades são compartilhadas pelo Grid.
 
 <Controls />
 
-## Build on React
+<br></br>
+
+## Usando em React
 
 <Source of={GridStories.FrameworkReact} />

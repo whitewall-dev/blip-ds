@@ -2,27 +2,56 @@ import { Story, ArgsTable, Canvas } from '@storybook/blocks';
 import * as RadioGroupStories from './radio-button.stories';
 import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
 
-# RadioGroup
+# Radio Group
 
+[Design e Acessibilidade](https://www.figma.com/design/2bBnJVKkG09JPWCFBIcD1y/%5BDS%5D-Components?m=auto&node-id=621-12363&t=TyXNmrAZbhl7DmWw-1)
+&nbsp;|&nbsp;
+[Snippets Form](https://takenet.github.io/blip-ds/?path=/docs/snippets-form--vis%C3%A3o-geral)
 
-## Overview
+<br></br>
 
-RadioGroup allows users to select a date or a range of dates.
+## Visão Geral
+
+O componente Radio Group permite que os usuários selecionem uma opção de um conjunto.
 
 <Canvas of={RadioGroupStories.Properties}></Canvas>
 
 <Meta isTemplate />
 
-The following properties that are shared by RadioGroup.
+<br></br>
+
+As propriedades a seguir são compartilhadas pelo componente Radio Group.
 
 <Controls />
 
-## Events
+<br></br>
 
-Some examples of Autocomplete Events.
+## Eventos
+
+Alguns exemplos de eventos do Radio Group.
+<table border="1">
+  <thead>
+    <tr>
+      <th>Eventos</th>
+      <th>Descrição</th>
+      <th>Tipo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>bdsRadioGroupChange</td>
+      <td>Dispara o evento quando a opção selecionada muda</td>
+      <td>Promise&lt;HTMLInputElement&gt;</td>
+    </tr>
+    
+  </tbody>
+</table>
+
 
 <Source of={RadioGroupStories.Events} />
 
-## Build on React
+<br></br>
+
+## Usando no React
 
 <Source of={RadioGroupStories.FrameworkReact} />

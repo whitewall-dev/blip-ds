@@ -77,22 +77,14 @@ export const Events = () => {
 };
 
 export const FrameworkReact = () => {
-  const breadcrumbItems = [
-    { label: 'Dashboard', href: '/dashboard' },
-    { label: 'Settings', href: '/settings' },
-    { label: 'Profile', href: '/profile' },
-    { label: 'Edit Profile' },
-  ];
-
-  const handleBreadcrumbClick = (event) => {
-    const detail = event.detail;
-    console.log('React Breadcrumb item clicked:', detail);
-  };
-
   return (
     <BdsBreadcrumb
-      items={breadcrumbItems}
-      onBreadcrumbItemClick={(event) => handleBreadcrumbClick(event)}
+      items={[
+        { label: 'Home', href: '/' },
+        { label: 'Features', href: '/features' },
+        { label: 'Pricing', href: '/pricing' },
+        { label: 'Documentation' },
+      ]}
     />
   );
 };

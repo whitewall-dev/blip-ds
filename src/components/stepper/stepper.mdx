@@ -4,25 +4,71 @@ import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source 
 
 # Stepper
 
+[Design e Acessibilidade](https://www.figma.com/design/2bBnJVKkG09JPWCFBIcD1y/%5BDS%5D-Components?m=auto&node-id=797-8992&t=TyXNmrAZbhl7DmWw-1)
 
-## Overview
+<br></br>
 
-Stepper allows users to select a date or a range of dates.
+## Visão Geral
+
+O componente Stepper permite que os usuários naveguem por etapas ou processos sequenciais.
 
 <Canvas of={StepperStories.Properties}></Canvas>
 
 <Meta isTemplate />
 
-The following properties that are shared by Stepper.
+<br></br>
+
+As propriedades a seguir são compartilhadas pelo componente Stepper.
 
 <Controls />
 
-## Methods
+<br></br>
 
-Some examples of Autocomplete Events.
+## Métodos
+
+Alguns exemplos de métodos do componente Stepper.
+<table border="1">
+  <thead>
+    <tr>
+      <th>Método</th>
+      <th>Descrição</th>
+      <th>Tipo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>getActiveStep()</td>
+      <td>Retorna o step ativo.</td>
+      <td>Promise&lt;number&gt;</td>
+    </tr>
+    <tr>
+      <td>resetActiveSteps()</td>
+      <td>Reseta todos os steps ativos.</td>
+      <td>Promise&lt;void&gt;</td>
+    </tr>
+    <tr>
+      <td>resetCompletedSteps()</td>
+      <td>Reseta todos steps completos.</td>
+      <td>Promise&lt;void&gt;</td>
+    </tr>
+    <tr>
+      <td>setActiveStep(index: number)</td>
+      <td>Configura o step ativo.</td>
+      <td>Promise&lt;void&gt;</td>
+    </tr>
+    <tr>
+      <td>setCompletedStep(index: number)</td>
+      <td>Configura o step completo.</td>
+      <td>Promise&lt;void&gt;</td>
+    </tr>
+  </tbody>
+</table>
+
 
 <Source of={StepperStories.Methods} />
 
-## Build on React
+<br></br>
+
+## Usando no React
 
 <Source of={StepperStories.FrameworkReact} />

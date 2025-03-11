@@ -1,33 +1,89 @@
-import { Story, ArgsTable, Canvas } from '@storybook/blocks';
+import { 
+  Story, 
+  ArgsTable, 
+  Canvas, 
+  Meta, 
+  Title, 
+  Subtitle, 
+  Description, 
+  Primary, 
+  Controls, 
+  Stories, 
+  Source 
+} from '@storybook/blocks';
 import * as ButtonGroupStories from './button-group.stories';
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
 
 # Button Group
 
-[Component Detail](https://design.blip.ai/document/13#/button/visao-geral-button)
+[Design e Acessibilidade](https://www.figma.com/design/2bBnJVKkG09JPWCFBIcD1y/%5BDS%5D-Components?m=auto&node-id=20378-3755&t=TyXNmrAZbhl7DmWw-1)
 &nbsp;|&nbsp;
-[Component Design](https://design.blip.ai/d/UbKsV1JhXTK4/design-1#/button/resumo-button)
-&nbsp;|&nbsp;
-[Accessibility](https://design.blip.ai/d/UbKsV1JhXTK4/design-1#/button/acessibilidade-button)
+[Snippets](https://takenet.github.io/blip-ds/?path=/docs/snippets-button-group--vis%C3%A3o-geral)
 
-## Overview
 
-Button Group allow users to take actions, and make choices, with a single tap.
+<br></br>
+## Estrutura
 
-<Canvas of={ButtonGroupStories.Properties}></Canvas>
+O Button Group permite que os usuários realizem ações e façam escolhas com um único toque.
+
+<Canvas of={ButtonGroupStories.Properties} />
 
 <Meta isTemplate />
 
-The following properties that are shared by Button Group.
+<br></br>
+## Propriedades
+
+As seguintes propriedades são compartilhadas pelo Button Group.
 
 <Controls />
 
-## Events
+<br></br>
+## Métodos
 
-Some examples of Button Group Events.
+Alguns exemplos de métodos do Button Group.
+<table>
+  <thead>
+    <tr>
+      <th>Método</th>
+      <th>Descrição</th>
+      <th>Tipo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>activateButton</td>
+      <td>Ativa um botão específico pelo índice</td>
+      <td>(index: number) =&gt; Promise&lt;void&gt;</td>
+    </tr>
+  </tbody>
+</table>
+
+<Source of={ButtonGroupStories.Methods} />
+
+<br></br>
+## Eventos
+
+Alguns exemplos de eventos do Button Group.
+<table>
+  <thead>
+    <tr>
+      <th>Evento</th>
+      <th>Descrição</th>
+      <th>Tipo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>buttonSelected</td>
+      <td>Evento emitido quando é executado um click no componente</td>
+      <td>CustomEvent&lt;any&gt;</td>
+    </tr>
+  </tbody>
+</table>
 
 <Source of={ButtonGroupStories.Events} />
 
-## Build on React
+<br></br>
+## Usando em React
 
 <Source of={ButtonGroupStories.FrameworkReact} />
+

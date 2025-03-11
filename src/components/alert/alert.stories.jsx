@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   BdsAlert,
   BdsAlertActions,
@@ -19,7 +19,7 @@ export default {
 };
 
 export const Properties = (args) => {
-  const el = document.getElementsByClassName('sb-story');
+ const el = document.getElementsByClassName('sb-story');
 if (el.length !== 0) {
   el[0].style.width = '720px';
   el[0].style.height = '400px';
@@ -27,7 +27,7 @@ if (el.length !== 0) {
   el[0].style.background = 'none';
 }
   return (
-    <bds-alert open={args.open}>
+    <bds-alert open={args.open} position="contain">
       <bds-alert-header variant={args.variant} icon={args.icon}>
         Atenção!
       </bds-alert-header>
@@ -71,6 +71,41 @@ Properties.args = {
   icon: 'info',
   open: true
 }
+
+export const Events = () => {
+
+  useEffect(() => {
+    const avatar = document.getElementById('alert');
+    avatar.addEventListener('bdsAlertChanged', () => {
+      console.log('Evento Click funcionando');
+    });
+  });
+
+  const btToggle = async id => {
+    const alert = document.getElementById(id);
+    alert.toggle();
+  }
+  return (
+    <BdsGrid>
+      <BdsButton onClick={() => btToggle('alert')}>
+        Abrir Alert
+      </BdsButton>
+      <BdsAlert id="alert">
+      <BdsAlertHeader variant="system" icon="info">
+        Atenção!
+      </BdsAlertHeader>
+      <BdsAlertBody>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. At corporis eligendi cumque ratione nulla a quos
+        error!
+      </BdsAlertBody>
+      <BdsAlertActions>
+        <BdsButton variant="tertiary" onClick={() => btToggle('alert')}>Cancelar</BdsButton>
+        <bds-button variant="primary" onClick={() => btToggle('alert')}>Confirmar</bds-button>
+      </BdsAlertActions>
+    </BdsAlert>
+    </BdsGrid>
+  );
+};
 
 export const Methods = () => {
 
