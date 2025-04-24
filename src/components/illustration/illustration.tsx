@@ -36,7 +36,7 @@ export class BdsIllustration {
 
   /**Function to map the svg and call the "formatSvg" function */
   setIllustrationContent = () => {
-    const tokensVersion = packageJson.dependencies['blip-tokens'].replace('^', '');
+    const tokensVersion = packageJson.devDependencies['blip-tokens'].replace('^', '');
     const apiUrl = `https://cdn.jsdelivr.net/npm/blip-tokens@${tokensVersion}/build/json/illustrations/${this.type}/${this.name}.json`;
     fetch(apiUrl).then((response) =>
       response.json().then((data) => {
