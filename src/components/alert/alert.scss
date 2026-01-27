@@ -1,4 +1,4 @@
-@import 'mixins';
+@use "mixins" as *;
 
 .alert__dialog {
   opacity: 0;

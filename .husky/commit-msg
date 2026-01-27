@@ -1,3 +1,0 @@
-# Simple commit message validation using commitizen config
-# This ensures commit messages follow conventional commit format
-npx --no-install commitizen --hook || true

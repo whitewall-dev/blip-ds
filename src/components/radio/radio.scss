@@ -1,4 +1,4 @@
-@import 'mixins';
+@use "mixins" as *;
 
 $radio-spacing-text: 8px;
 $radio-circle-width: 24px;

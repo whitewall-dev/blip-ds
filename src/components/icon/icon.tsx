@@ -1,10 +1,48 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Build, Component, Element, Host, Prop, State, Watch, h } from '@stencil/core';
-import icons from 'blip-tokens/build/json/assets_icons.json';
-import emojis from 'blip-tokens/build/json/assets_emojis.json';
-import logo from 'blip-tokens/build/json/assets_logos.json';
 import { IconSize, IconTheme, IconType } from './icon-interface';
 import { formatSvg, getIconName, getEmojiName, getLogoName } from './utils';
+
+type AssetMap = Record<string, string>;
+
+let iconsPromise: Promise<AssetMap> | null = null;
+let emojisPromise: Promise<AssetMap> | null = null;
+let logosPromise: Promise<AssetMap> | null = null;
+
+const getAsset = (assets: AssetMap, key: string): string => {
+  const raw = assets[key];
+  if (!raw) {
+    throw new Error(`Missing asset: ${key}`);
+  }
+  return raw;
+};
+
+const loadIcons = async (): Promise<AssetMap> => {
+  if (!iconsPromise) {
+    iconsPromise = import('../../assets/blip-tokens/assets_icons.json').then(
+      (module) => (module.default ?? module) as AssetMap,
+    );
+  }
+  return iconsPromise;
+};
+
+const loadEmojis = async (): Promise<AssetMap> => {
+  if (!emojisPromise) {
+    emojisPromise = import('../../assets/blip-tokens/assets_emojis.json').then(
+      (module) => (module.default ?? module) as AssetMap,
+    );
+  }
+  return emojisPromise;
+};
+
+const loadLogos = async (): Promise<AssetMap> => {
+  if (!logosPromise) {
+    logosPromise = import('../../assets/blip-tokens/assets_logos.json').then(
+      (module) => (module.default ?? module) as AssetMap,
+    );
+  }
+  return logosPromise;
+};
 
 @Component({
   tag: 'bds-icon',
@@ -14,6 +52,7 @@ import { formatSvg, getIconName, getEmojiName, getLogoName } from './utils';
 })
 export class Icon {
   private io?: IntersectionObserver;
+  private loadId = 0;
 
   @Element() el!: HTMLElement;
 
@@ -118,11 +157,11 @@ export class Icon {
   @Watch('src')
   @Watch('icon')
   @Watch('theme')
-  loadIcon(): void {
+  async loadIcon(): Promise<void> {
     if (!this.name) return;
 
     if (Build.isBrowser && this.isVisible) {
-      this.setSvgContent();
+      await this.setSvgContent();
     }
 
     if (!this.ariaLabel) {
@@ -133,21 +172,32 @@ export class Icon {
     }
   }
 
-  setSvgContent = () => {
+  private setSvgContent = async () => {
+    const loadId = ++this.loadId;
+    const name = this.name;
+    const theme = this.theme;
+    const type = this.type;
+    const color = this.color;
     let svg;
     try {
-      if (this.type === 'icon') {
-        const key = getIconName(this.name, this.theme);
-        svg = atob(icons[key]);
-        this.svgContent = formatSvg(svg, this.color);
-      } else if (this.type === 'emoji') {
-        const key = getEmojiName(this.name);
-        svg = atob(emojis[key]);
-        this.svgContent = formatSvg(svg, this.color, true);
-      } else if (this.type === 'logo') {
-        const key = getLogoName(this.name);
-        svg = atob(logo[key]);
-        this.svgContent = formatSvg(svg, this.color, true);
+      if (type === 'icon') {
+        const icons = await loadIcons();
+        if (this.loadId !== loadId) return;
+        const key = getIconName(name, theme);
+        svg = getAsset(icons, key);
+        this.svgContent = formatSvg(svg, color);
+      } else if (type === 'emoji') {
+        const emojiMap = await loadEmojis();
+        if (this.loadId !== loadId) return;
+        const key = getEmojiName(name);
+        svg = getAsset(emojiMap, key);
+        this.svgContent = formatSvg(svg, color, true);
+      } else if (type === 'logo') {
+        const logoMap = await loadLogos();
+        if (this.loadId !== loadId) return;
+        const key = getLogoName(name);
+        svg = getAsset(logoMap, key);
+        this.svgContent = formatSvg(svg, color, true);
       }
     } catch (err) {
       // eslint-disable-next-line no-console

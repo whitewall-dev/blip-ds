@@ -1,3 +1,5 @@
+@use "app" as app;
+
 .bds-hover:hover {
   mix-blend-mode: multiply;
 }
@@ -16,7 +18,7 @@
     outline: none;
 
     &::before {
-      border-color: $color-primary-purples-bell;
+      border-color: app.$color-focus;
     }
   }
 }
@@ -28,23 +30,19 @@
 // -------------Background Color -----------------
 
 .bg-surface-1 {
-  background-color: $color-surface-1;
+  background-color: app.$color-surface-1;
 }
 
 .bg-surface-2 {
-  background-color: $color-surface-2;
+  background-color: app.$color-surface-2;
 }
 
 .bg-surface-3 {
-  background-color: $color-surface-3;
+  background-color: app.$color-surface-3;
 }
 
 .bg-surface-4 {
-  background-color: $color-surface-4;
+  background-color: app.$color-surface-4;
 }
-
-
-
-
 
 

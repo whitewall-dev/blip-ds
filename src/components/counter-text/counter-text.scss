@@ -1,4 +1,4 @@
-@import 'mixins';
+@use "mixins" as *;
 
 .counter-text {
   background: $color-surface-2;

@@ -31,5 +31,7 @@ UserInterfaceState.xcuserstate
 
 icons/
 scripts/*.js
+/src/assets/blip-tokens/*
+!/src/assets/blip-tokens/.gitkeep
 
 /screenshot

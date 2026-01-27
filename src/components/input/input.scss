@@ -1,5 +1,7 @@
-@import 'resets';
-@import 'mixins';
+@use "app" as app;
+
+@use "resets" as *;
+@use "mixins" as *;
 
 $input-padding: 8px 4px 8px 12px;
 $input-padding-label: 7px 4px 8px 12px;
@@ -8,8 +10,8 @@ $input-padding-textarea-label: 12px 12px 12px 12px;
 $input-width: 100%;
 
 @mixin input-text {
-  font-family: $font-family;
-  font-size: $fs-14;
+  font-family: app.$font-family;
+  font-size: app.$fs-14;
   line-height: 22px;
 }
 
@@ -34,7 +36,7 @@ $input-width: 100%;
   $color-input-focus: $focus;
 
   @if ($name == 'disabled') {
-    background: $color-surface-2;
+    background: app.$color-surface-2;
   }
 
   @include input-border($color-input-border);
@@ -85,12 +87,12 @@ $input-width: 100%;
   textarea {
     box-shadow: inherit;
     &::placeholder {
-      color: $color-content-ghost;
+      color: app.$color-content-ghost;
       opacity: 1;
     }
 
     &::-webkit-input-placeholder {
-      color: $color-content-ghost;
+      color: app.$color-content-ghost;
       opacity: 1;
     }
   }
@@ -141,20 +143,20 @@ $input-width: 100%;
           left: 0;
           width: 100%;
           height: 100%;
-          background-color: $color-hover;
+          background-color: app.$color-hover;
           z-index: 0;
           border-radius: 8px;
         }
       }
       @include input-theme(
         'primary',
-        $color-primary,
-        $color-surface-1,
-        $color-content-default,
-        $color-content-default,
-        $color-border-1,
-        $color-primary,
-        $color-info
+        app.$color-primary,
+        app.$color-surface-1,
+        app.$color-content-default,
+        app.$color-content-default,
+        app.$color-border-1,
+        app.$color-primary,
+        app.$color-info
       );
     }
 
@@ -168,7 +170,7 @@ $input-width: 100%;
           left: 0;
           width: 100%;
           height: 100%;
-          background-color: $color-surface-negative;
+          background-color: app.$color-surface-negative;
           z-index: 0;
           opacity: 50%;
           border-radius: 8px;
@@ -176,13 +178,13 @@ $input-width: 100%;
       }
       @include input-theme(
         'danger',
-        $color-negative,
-        $color-error,
-        $color-delete,
-        $color-content-default,
-        $color-delete,
-        $color-delete,
-        $color-error
+        app.$color-negative,
+        app.$color-error,
+        app.$color-delete,
+        app.$color-content-default,
+        app.$color-delete,
+        app.$color-delete,
+        app.$color-error
       );
     }
 
@@ -196,20 +198,20 @@ $input-width: 100%;
           left: 0;
           width: 100%;
           height: 100%;
-          background-color: $color-surface-positive;
+          background-color: app.$color-surface-positive;
           z-index: 0;
           border-radius: 8px;
         }
       }
       @include input-theme(
         'success',
-        $color-positive,
-        $color-success,
-        $color-content-default,
-        $color-content-default,
-        $color-border-1,
-        $color-content-default,
-        $color-success
+        app.$color-positive,
+        app.$color-success,
+        app.$color-content-default,
+        app.$color-content-default,
+        app.$color-border-1,
+        app.$color-content-default,
+        app.$color-success
       );
     }
 
@@ -223,7 +225,7 @@ $input-width: 100%;
           left: 0;
           width: 100%;
           height: 100%;
-          background-color: $color-hover;
+          background-color: app.$color-hover;
           z-index: 0;
           opacity: 50%;
           border-radius: 8px;
@@ -236,7 +238,7 @@ $input-width: 100%;
   }
 
   & .icon-success {
-    color: $color-positive;
+    color: app.$color-positive;
     margin-left: 4px;
     margin-top: 1px; // Align with text baseline
   }
@@ -320,17 +322,17 @@ $input-width: 100%;
         }
 
         &::-webkit-scrollbar-thumb {
-          background: $color-border-2;
+          background: app.$color-border-2;
           border-radius: 4px;
 
           &:hover {
-            background: $color-content-ghost;
+            background: app.$color-content-ghost;
           }
         }
 
         // Firefox scrollbar styling
         scrollbar-width: thin;
-        scrollbar-color: $color-border-2 transparent;
+        scrollbar-color: app.$color-border-2 transparent;
       }
 
       &[type='date'] {
@@ -349,7 +351,7 @@ $input-width: 100%;
     margin: 3.7px 2.5px;
     gap: 4px;
     transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    color: $color-content-disable;
+    color: app.$color-content-disable;
     word-break: break-word;
     height: auto;
     min-height: 20px;
@@ -367,21 +369,21 @@ $input-width: 100%;
     &--danger {
       .input__message__icon {
         .bds-icon {
-          color: $color-negative;
+          color: app.$color-negative;
         }
       }
       .input__message__text {
-        color: $color-negative;
+        color: app.$color-negative;
       }
     }
     &--success {
       .input__message__icon {
         .bds-icon {
-          color: $color-positive;
+          color: app.$color-positive;
         }
       }
       .input__message__text {
-        color: $color-content-default;
+        color: app.$color-content-default;
       }
     }
   }

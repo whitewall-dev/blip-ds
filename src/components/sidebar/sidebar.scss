@@ -1,4 +1,4 @@
-@import 'mixins';
+@use "mixins" as *;
 
 .sidebar_dialog {
   width: 100%;

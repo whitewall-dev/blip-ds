@@ -1,6 +1,6 @@
 import { Config } from '@stencil/core';
 import { sass } from '@stencil/sass';
-import { reactOutputTarget } from '@stencil/react-output-target';
+// import { reactOutputTarget } from '@stencil/react-output-target';
 
 export const config: Config = {
   namespace: 'blip-ds',
@@ -17,7 +17,7 @@ export const config: Config = {
       esmLoaderPath: '../loader',
       copy: [
         { src: 'globals', dest: 'styles' },
-        { src: '../blip-ds-react/dist', dest: '../blip-ds-react' },
+        // { src: '../blip-ds-react/dist', dest: '../blip-ds-react' },
       ],
     },
     {
@@ -27,12 +27,12 @@ export const config: Config = {
       type: 'www',
       serviceWorker: null, // disable service workers
     },
-    reactOutputTarget({
-      componentCorePackage: '../../loader',
-      proxiesFile: './blip-ds-react/src/components.ts',
-    }),
+    // reactOutputTarget({
+    //   componentCorePackage: '../../loader',
+    //   proxiesFile: './blip-ds-react/src/components.ts',
+    // }),
   ],
-  buildEs5: 'prod',
+  buildEs5: false,
   extras: {
     appendChildSlotFix: true,
     scriptDataOpts: true,

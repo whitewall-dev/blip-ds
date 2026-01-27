@@ -1,5 +1,5 @@
-@import 'mixins';
-@import 'resets';
+@use "mixins" as *;
+@use "resets" as *;
 
 :host {
   display: flex;

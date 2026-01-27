@@ -4,22 +4,22 @@ import { Build } from '@stencil/core';
 // Mock Build.isBrowser
 (Build as any).isBrowser = true;
 
-// Mock the blip-tokens imports
-jest.mock('blip-tokens/build/json/assets_icons.json', () => ({
+// Mock the local icon asset imports
+jest.mock('../../../assets/blip-tokens/assets_icons.json', () => ({
   'asset-icon-edit-outline':
-    'PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+PHBhdGggZD0iTTMgMTdWMjFIMTBWMTlINVYxN0gzWiIgZmlsbD0iIzMzMzMzMyIvPjwvc3ZnPg==',
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 17V21H10V19H5V17H3Z" fill="#333333"/></svg>',
   'asset-icon-edit-solid':
-    'PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+PHBhdGggZD0iTTMgMTdWMjFIMTBWMTlINVYxN0gzWiIgZmlsbD0iIzMzMzMzMyIvPjwvc3ZnPg==',
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 17V21H10V19H5V17H3Z" fill="#333333"/></svg>',
 }));
 
-jest.mock('blip-tokens/build/json/assets_emojis.json', () => ({
+jest.mock('../../../assets/blip-tokens/assets_emojis.json', () => ({
   'asset-emoji-smile':
-    'PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiIGZpbGw9IiNGRkQ1NEYiLz48L3N2Zz4=',
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#FFD54F"/></svg>',
 }));
 
-jest.mock('blip-tokens/build/json/assets_logos.json', () => ({
+jest.mock('../../../assets/blip-tokens/assets_logos.json', () => ({
   'asset-logo-brand':
-    'PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiIGZpbGw9IiNGRkQ1NEYiLz48L3N2Zz4=',
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#FFD54F"/></svg>',
 }));
 
 // Mock DOM methods
@@ -35,9 +35,6 @@ Object.defineProperty(global, 'document', {
     })),
   },
 });
-
-// Mock atob function
-global.atob = jest.fn((str) => str);
 
 import { Icon } from '../icon';
 
@@ -282,10 +279,10 @@ describe('bds-icon', () => {
       (Build as any).isBrowser = true;
       
       // Call setSvgContent directly to test the logic
-      (page.rootInstance as any).setSvgContent();
+      await (page.rootInstance as any).setSvgContent();
 
       expect(page.rootInstance.svgContent).toBeDefined();
-      expect(page.rootInstance.svgContent).toContain('PHN2ZyB3aWR0aD0i');
+      expect(page.rootInstance.svgContent).toContain('<svg');
     });
 
     it('should load SVG content for emoji type', async () => {
@@ -301,10 +298,10 @@ describe('bds-icon', () => {
       (Build as any).isBrowser = true;
       
       // Call setSvgContent directly to test the logic
-      (page.rootInstance as any).setSvgContent();
+      await (page.rootInstance as any).setSvgContent();
 
       expect(page.rootInstance.svgContent).toBeDefined();
-      expect(page.rootInstance.svgContent).toContain('PHN2ZyB3aWR0aD0i');
+      expect(page.rootInstance.svgContent).toContain('<svg');
     });
 
     it('should load SVG content for logo type', async () => {
@@ -320,10 +317,10 @@ describe('bds-icon', () => {
       (Build as any).isBrowser = true;
       
       // Call setSvgContent directly to test the logic
-      (page.rootInstance as any).setSvgContent();
+      await (page.rootInstance as any).setSvgContent();
 
       expect(page.rootInstance.svgContent).toBeDefined();
-      expect(page.rootInstance.svgContent).toContain('PHN2ZyB3aWR0aD0i');
+      expect(page.rootInstance.svgContent).toContain('<svg');
     });
 
     it('should not load SVG content when name is not provided', async () => {
@@ -343,15 +340,6 @@ describe('bds-icon', () => {
     it('should handle errors when loading invalid icon names', async () => {
       const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
 
-      // Mock atob to throw an error for invalid icons
-      const originalAtob = global.atob;
-      global.atob = jest.fn().mockImplementation((str) => {
-        if (str.includes('invalid-icon')) {
-          throw new Error('Invalid base64');
-        }
-        return str;
-      });
-
       const page = await newSpecPage({
         components: [Icon],
         html: `<bds-icon name="invalid-icon" type="icon"></bds-icon>`,
@@ -364,12 +352,10 @@ describe('bds-icon', () => {
       (Build as any).isBrowser = true;
       
       // Call setSvgContent directly to trigger the error
-      (page.rootInstance as any).setSvgContent();
+      await (page.rootInstance as any).setSvgContent();
 
       expect(consoleWarnSpy).toHaveBeenCalledWith('[Warning]: Failed to setSvgContent to', 'invalid-icon');
 
-      // Restore mocks
-      global.atob = originalAtob;
       consoleWarnSpy.mockRestore();
     });
   });

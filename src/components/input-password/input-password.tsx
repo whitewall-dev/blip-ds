@@ -207,7 +207,8 @@ export class InputPassword {
         this.bdsInputPasswordSubmit.emit({ event, value: this.value });
 
         break;
-      case 'Backspace' || 'Delete':
+      case 'Backspace':
+      case 'Delete':
         this.bdsKeyDownBackspace.emit({ event, value: this.value });
         break;
     }

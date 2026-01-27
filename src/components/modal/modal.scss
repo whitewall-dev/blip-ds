@@ -1,4 +1,4 @@
-@import 'mixins';
+@use "mixins" as *;
 
 .modal__dialog {
   opacity: 0;

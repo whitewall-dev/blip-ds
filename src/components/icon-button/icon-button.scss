@@ -1,4 +1,4 @@
-@import 'resets';
+@use "resets" as *;
 
 $icon-button-border-radius: 8px;
 $icon-button-padding: 8px;

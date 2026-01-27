@@ -325,7 +325,8 @@ export class InputChips {
         this.bdsChange.emit({ data: this.internalChips, value: this.getLastChip() });
         this.bdsChangeChips.emit({ data: this.internalChips, value: this.getLastChip() });
         break;
-      case 'Backspace' || 'Delete':
+      case 'Backspace':
+      case 'Delete':
         if ((this.value === null || this.value.length <= 0) && this.internalChips.length) {
           this.removeLastChip();
           this.bdsChange.emit({ data: this.internalChips, value: this.getLastChip() });
@@ -548,7 +549,7 @@ export class InputChips {
     const isPressed = this.isPressed && !this.disabled;
     // Set default maxHeight if not provided to prevent UI breaking
     const defaultMaxHeight = this.maxHeight || '80px';
-    
+
     return (
       <Host aria-disabled={this.disabled ? 'true' : null}>
         <div
@@ -568,7 +569,7 @@ export class InputChips {
           {this.renderIcon()}
           <div class="input__container">
             {this.renderLabel()}
-            <div 
+            <div
               class="input__container__wrapper"
               style={{ maxHeight: defaultMaxHeight }}
             >
