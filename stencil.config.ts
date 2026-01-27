@@ -27,13 +27,6 @@ export const config: Config = {
       type: 'www',
       serviceWorker: null, // disable service workers
     },
-    {
-      type: 'www',
-      serviceWorker: null, // disable service workers
-      dir: 'cypress',
-      empty: false,
-      copy: [{ src: '../dist', dest: 'dist', warn: false }],
-    },
     reactOutputTarget({
       componentCorePackage: '../../loader',
       proxiesFile: './blip-ds-react/src/components.ts',
@@ -48,7 +41,12 @@ export const config: Config = {
     enableImportInjection: true,
   },
   testing: {
-    timers: 'fake',
+    browserArgs: ['--no-sandbox', '--disable-setuid-sandbox'],
+    collectCoverageFrom: ['src/**/*.{ts,tsx}'],
+    setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+    transform: {
+      '^.+\\.svg$': '<rootDir>/jest.svg-transform.js',
+    },
   },
   devServer: {
     reloadStrategy: 'pageReload',

@@ -15,7 +15,7 @@ import { AvatarDataList } from "./components/avatar-group/avatar-group-interface
 import { Shape } from "./components/badge/badge";
 import { BannerAlign, BannerVariant, ButtonClose, Context } from "./components/banner/banner";
 import { targets } from "./components/banner/banner-link/banner-link";
-import { ButtonSize, ButtonType, ButtonVariant, IconTheme, IconType } from "./components/button/button";
+import { ButtonJustifyContent, ButtonSize, ButtonType, ButtonVariant, IconTheme, IconType } from "./components/button/button";
 import { colorsVariants, LoadingSpinnerVariant } from "./components/loading-spinner/loading-spinner";
 import { ButtonSize as ButtonSize1 } from "./components/button/button";
 import { alignItems, breakpoint, direction, flexWrap, gap as gap1, justifyContent as justifyContent2, margin, padding } from "./components/grid/grid-interface";
@@ -383,6 +383,14 @@ export namespace Components {
          */
         "disabled"?: boolean;
         /**
+          * If true, the button will occupy 100% width with centered content.
+         */
+        "fullWidth"?: boolean;
+        /**
+          * If true, groups the left icon with the label when justifyContent is 'space-between'. This keeps the left icon and text together as a single visual unit on the left side.
+         */
+        "groupIcon"?: boolean;
+        /**
           * used for add icon in input left. Uses the bds-icon component.
          */
         "icon"?: string;
@@ -399,6 +407,10 @@ export namespace Components {
          */
         "iconTheme": IconTheme;
         "isActive": (value: any) => Promise<void>;
+        /**
+          * Controls the horizontal alignment of button content. 'center' - content is centered (default) 'space-between' - left content aligned left, right content aligned right
+         */
+        "justifyContent"?: ButtonJustifyContent;
         "setColor": (color: 'primary' | 'content' | 'negative' | 'positive') => Promise<void>;
         "setDirection": (direction: 'row' | 'column') => Promise<void>;
         "setPosition": (position: 'first' | 'last' | 'middle') => Promise<void>;
@@ -1122,164 +1134,188 @@ export namespace Components {
     }
     interface BdsInput {
         /**
-          * Define a capitalização automática do texto (valores possíveis: `on`, `off`).
+          * Defines automatic text capitalization (possible values: `on`, `off`).
          */
         "autoCapitalize"?: InputAutocapitalize;
         /**
-          * Define o comportamento de autocompletar do navegador (valores possíveis: `on`, `off`).
+          * Defines browser autocomplete behavior (possible values: `on`, `off`).
          */
         "autoComplete"?: InputAutoComplete;
         /**
-          * Define se o input será exibido como chips (um tipo de entrada com múltiplos valores).
+          * Defines whether the textarea should automatically resize based on content.
+         */
+        "autoResize": boolean;
+        /**
+          * Defines if the input will be displayed as chips (a type of input with multiple values).
          */
         "chips": boolean;
         /**
-          * Limpa o valor do campo de entrada.
+          * Clears the input field value.
          */
         "clear": () => Promise<void>;
         /**
-          * Define a quantidade de colunas da área de texto (se for `textarea`).
+          * Defines the number of columns for the textarea (if `textarea`).
          */
         "cols"?: number;
         /**
-          * Define se será exibido um contador de comprimento de caracteres.
+          * Defines whether a character length counter will be displayed.
          */
         "counterLength"?: boolean;
         /**
-          * Define a regra do contador de comprimento de caracteres (min, max, etc).
+          * Defines the character length counter rule (min, max, etc).
          */
         "counterLengthRule"?: InputCounterLengthRules;
         /**
-          * Define se o input está em estado de erro.
+          * Defines if the input is in error state.
          */
         "danger"?: boolean;
         /**
-          * Data test é a prop para testar especificamente a ação do componente.
+          * Data test is the prop to specifically test the component action.
          */
         "dataTest"?: string;
         /**
-          * Define se o input está desabilitado.
+          * Defines the debounce delay in milliseconds for textarea auto-resize.
+         */
+        "debounceDelay"?: number;
+        /**
+          * Defines if the input is disabled.
          */
         "disabled"?: boolean;
         /**
-          * Mensagem de erro exibida quando o valor do input não é um email válido.
+          * Error message displayed when the input value is not a valid email.
          */
         "emailErrorMessage": string;
         "encode"?: boolean;
         /**
-          * Mensagem de erro exibida quando o valor do input é inválido.
+          * Error message displayed when the input value is invalid.
          */
         "errorMessage"?: string;
         /**
-          * Retorna o elemento de input do componente.
+          * Returns the input element of the component.
          */
-        "getInputElement": () => Promise<HTMLInputElement>;
+        "getInputElement": () => Promise<HTMLInputElement | HTMLTextAreaElement>;
         /**
-          * Mensagem de ajuda exibida abaixo do input.
+          * Help message displayed below the input.
          */
         "helperMessage"?: string;
         /**
-          * Nome do ícone a ser exibido dentro do input.
+          * Name of the icon to be displayed inside the input.
          */
         "icon"?: string;
         /**
-          * Nome do input, usado para identificação no formulário.
+          * Defines the icon size (small or medium).
+         */
+        "iconSize"?: 'small' | 'medium';
+        /**
+          * Input name, used for form identification.
          */
         "inputName"?: string;
         /**
-          * Define se o input será submetido ao pressionar Enter.
+          * Defines whether the input will be submitted when pressing Enter.
          */
         "isSubmit": boolean;
         /**
-          * Define se o input é uma área de texto (textarea).
+          * Defines whether the input is a textarea.
          */
         "isTextarea": boolean;
         /**
-          * Verifica se o campo de entrada é válido.
+          * Checks if the input field is valid.
          */
         "isValid": () => Promise<boolean>;
         /**
-          * Rótulo que será exibido acima do input.
+          * Label to be displayed above the input.
          */
         "label"?: string;
         /**
-          * Define o valor máximo permitido para o input.
+          * Defines the maximum allowed value for the input.
          */
         "max"?: string;
         /**
-          * Mensagem de erro exibida quando o valor do input não atende ao valor máximo permitido.
+          * Error message displayed when the input value doesn't meet the maximum allowed value.
          */
         "maxErrorMessage": string;
         /**
-          * Define o número máximo de caracteres permitidos no input.
+          * Defines the maximum height of the textarea in pixels.
+         */
+        "maxHeight"?: number;
+        /**
+          * Defines the maximum number of characters allowed in the input.
          */
         "maxlength"?: number;
         /**
-          * Define o valor mínimo permitido para o input.
+          * Defines the minimum allowed value for the input.
          */
         "min"?: string;
         /**
-          * Mensagem de erro exibida quando o valor do input não atende ao valor mínimo permitido.
+          * Error message displayed when the input value doesn't meet the minimum allowed value.
          */
         "minErrorMessage": string;
         /**
-          * Define o número mínimo de caracteres permitidos no input.
+          * Defines the minimum height of the textarea in pixels.
+         */
+        "minHeight"?: number;
+        /**
+          * Defines the minimum number of characters allowed in the input.
          */
         "minlength"?: number;
         /**
-          * Mensagem de erro exibida quando o valor do input não atende ao comprimento mínimo.
+          * Error message displayed when the input value doesn't meet the minimum length requirement.
          */
         "minlengthErrorMessage": string;
         /**
-          * Mensagem de erro exibida quando o valor do input não é um número válido.
+          * Error message displayed when the input value is not a valid number.
          */
         "numberErrorMessage": string;
         /**
-          * Define um padrão regex que o valor do input deve seguir.
+          * Defines a regex pattern that the input value must follow.
          */
         "pattern"?: string;
         /**
-          * Texto que será exibido como sugestão ou dica no input.
+          * Text to be displayed as a hint or placeholder in the input.
          */
         "placeholder"?: string;
         /**
-          * Torna o input somente leitura.
+          * Makes the input read-only.
          */
         "readonly": boolean;
         /**
-          * Remove o foco do campo de entrada.
+          * Removes focus from the input field.
          */
         "removeFocus": () => Promise<void>;
         /**
-          * Define se o input é obrigatório.
+          * Defines if the input is required.
          */
         "required": boolean;
         /**
-          * Mensagem de erro exibida quando o input não é preenchido e é obrigatório.
+          * Error message displayed when the input is not filled and is required.
          */
         "requiredErrorMessage": string;
         /**
-          * Define a quantidade de linhas da área de texto (se for `textarea`).
+          * Defines whether the textarea can be manually resized by the user.
+         */
+        "resizable": boolean;
+        /**
+          * Defines the number of lines for the textarea (if `textarea`).
          */
         "rows"?: number;
         /**
-          * Define o foco no campo de entrada.
+          * Sets focus to the input field.
          */
         "setFocus": () => Promise<void>;
         /**
-          * Define se o input está em estado de sucesso.
+          * Defines if the input is in success state.
          */
         "success"?: boolean;
         /**
-          * Mensagem exibida quando o valor do input é válido.
+          * Message displayed when the input value is valid.
          */
         "successMessage"?: string;
         /**
-          * Define o tipo do input (por exemplo, `text`, `password`, etc).
+          * Defines the input type (e.g., `text`, `password`, etc).
          */
         "type"?: InputType;
         /**
-          * O valor atual do input.
+          * The current value of the input.
          */
         "value"?: string | null;
     }
@@ -2620,6 +2656,10 @@ export namespace Components {
          */
         "badgeShape"?: string;
         /**
+          * Inline styles to be applied to the tab group content element.
+         */
+        "contentStyle"?: string;
+        /**
           * Data test is the prop to specifically test the component action object.
          */
         "dataTest"?: string;
@@ -2627,6 +2667,14 @@ export namespace Components {
           * Prop for disable the especific tab.
          */
         "disable"?: boolean;
+        /**
+          * Prop to indicate an error state for the tab.
+         */
+        "error"?: boolean;
+        /**
+          * Inline styles to be applied to the tab group header element.
+         */
+        "headerStyle"?: string;
         /**
           * The icon to be shown at the Tab item.
          */
@@ -4170,6 +4218,14 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
+          * If true, the button will occupy 100% width with centered content.
+         */
+        "fullWidth"?: boolean;
+        /**
+          * If true, groups the left icon with the label when justifyContent is 'space-between'. This keeps the left icon and text together as a single visual unit on the left side.
+         */
+        "groupIcon"?: boolean;
+        /**
           * used for add icon in input left. Uses the bds-icon component.
          */
         "icon"?: string;
@@ -4185,6 +4241,10 @@ declare namespace LocalJSX {
           * The theme of the icon. Can be one of: 'outline', 'solid';
          */
         "iconTheme"?: IconTheme;
+        /**
+          * Controls the horizontal alignment of button content. 'center' - content is centered (default) 'space-between' - left content aligned left, right content aligned right
+         */
+        "justifyContent"?: ButtonJustifyContent;
         /**
           * Event buttom onClick.
          */
@@ -4954,172 +5014,196 @@ declare namespace LocalJSX {
     }
     interface BdsInput {
         /**
-          * Define a capitalização automática do texto (valores possíveis: `on`, `off`).
+          * Defines automatic text capitalization (possible values: `on`, `off`).
          */
         "autoCapitalize"?: InputAutocapitalize;
         /**
-          * Define o comportamento de autocompletar do navegador (valores possíveis: `on`, `off`).
+          * Defines browser autocomplete behavior (possible values: `on`, `off`).
          */
         "autoComplete"?: InputAutoComplete;
         /**
-          * Define se o input será exibido como chips (um tipo de entrada com múltiplos valores).
+          * Defines whether the textarea should automatically resize based on content.
+         */
+        "autoResize"?: boolean;
+        /**
+          * Defines if the input will be displayed as chips (a type of input with multiple values).
          */
         "chips"?: boolean;
         /**
-          * Define a quantidade de colunas da área de texto (se for `textarea`).
+          * Defines the number of columns for the textarea (if `textarea`).
          */
         "cols"?: number;
         /**
-          * Define se será exibido um contador de comprimento de caracteres.
+          * Defines whether a character length counter will be displayed.
          */
         "counterLength"?: boolean;
         /**
-          * Define a regra do contador de comprimento de caracteres (min, max, etc).
+          * Defines the character length counter rule (min, max, etc).
          */
         "counterLengthRule"?: InputCounterLengthRules;
         /**
-          * Define se o input está em estado de erro.
+          * Defines if the input is in error state.
          */
         "danger"?: boolean;
         /**
-          * Data test é a prop para testar especificamente a ação do componente.
+          * Data test is the prop to specifically test the component action.
          */
         "dataTest"?: string;
         /**
-          * Define se o input está desabilitado.
+          * Defines the debounce delay in milliseconds for textarea auto-resize.
+         */
+        "debounceDelay"?: number;
+        /**
+          * Defines if the input is disabled.
          */
         "disabled"?: boolean;
         /**
-          * Mensagem de erro exibida quando o valor do input não é um email válido.
+          * Error message displayed when the input value is not a valid email.
          */
         "emailErrorMessage"?: string;
         "encode"?: boolean;
         /**
-          * Mensagem de erro exibida quando o valor do input é inválido.
+          * Error message displayed when the input value is invalid.
          */
         "errorMessage"?: string;
         /**
-          * Mensagem de ajuda exibida abaixo do input.
+          * Help message displayed below the input.
          */
         "helperMessage"?: string;
         /**
-          * Nome do ícone a ser exibido dentro do input.
+          * Name of the icon to be displayed inside the input.
          */
         "icon"?: string;
         /**
-          * Nome do input, usado para identificação no formulário.
+          * Defines the icon size (small or medium).
+         */
+        "iconSize"?: 'small' | 'medium';
+        /**
+          * Input name, used for form identification.
          */
         "inputName"?: string;
         /**
-          * Define se o input será submetido ao pressionar Enter.
+          * Defines whether the input will be submitted when pressing Enter.
          */
         "isSubmit"?: boolean;
         /**
-          * Define se o input é uma área de texto (textarea).
+          * Defines whether the input is a textarea.
          */
         "isTextarea"?: boolean;
         /**
-          * Rótulo que será exibido acima do input.
+          * Label to be displayed above the input.
          */
         "label"?: string;
         /**
-          * Define o valor máximo permitido para o input.
+          * Defines the maximum allowed value for the input.
          */
         "max"?: string;
         /**
-          * Mensagem de erro exibida quando o valor do input não atende ao valor máximo permitido.
+          * Error message displayed when the input value doesn't meet the maximum allowed value.
          */
         "maxErrorMessage"?: string;
         /**
-          * Define o número máximo de caracteres permitidos no input.
+          * Defines the maximum height of the textarea in pixels.
+         */
+        "maxHeight"?: number;
+        /**
+          * Defines the maximum number of characters allowed in the input.
          */
         "maxlength"?: number;
         /**
-          * Define o valor mínimo permitido para o input.
+          * Defines the minimum allowed value for the input.
          */
         "min"?: string;
         /**
-          * Mensagem de erro exibida quando o valor do input não atende ao valor mínimo permitido.
+          * Error message displayed when the input value doesn't meet the minimum allowed value.
          */
         "minErrorMessage"?: string;
         /**
-          * Define o número mínimo de caracteres permitidos no input.
+          * Defines the minimum height of the textarea in pixels.
+         */
+        "minHeight"?: number;
+        /**
+          * Defines the minimum number of characters allowed in the input.
          */
         "minlength"?: number;
         /**
-          * Mensagem de erro exibida quando o valor do input não atende ao comprimento mínimo.
+          * Error message displayed when the input value doesn't meet the minimum length requirement.
          */
         "minlengthErrorMessage"?: string;
         /**
-          * Mensagem de erro exibida quando o valor do input não é um número válido.
+          * Error message displayed when the input value is not a valid number.
          */
         "numberErrorMessage"?: string;
         /**
-          * Evento disparado quando o valor do input muda.
+          * Event emitted when the input value changes.
          */
         "onBdsChange"?: (event: BdsInputCustomEvent<any>) => void;
         /**
-          * Evento disparado quando o input ganha o foco.
+          * Event emitted when the input gains focus.
          */
         "onBdsFocus"?: (event: BdsInputCustomEvent<any>) => void;
         /**
-          * Evento disparado quando o input recebe um input (digitação).
+          * Event emitted when the input receives input (typing).
          */
         "onBdsInput"?: (event: BdsInputCustomEvent<KeyboardEvent>) => void;
         /**
-          * Evento disparado quando a tecla "Backspace" é pressionada.
+          * Event emitted when the "Backspace" key is pressed.
          */
         "onBdsKeyDownBackspace"?: (event: BdsInputCustomEvent<any>) => void;
         /**
-          * Evento disparado quando o input perde o foco.
+          * Event emitted when the input loses focus.
          */
         "onBdsOnBlur"?: (event: BdsInputCustomEvent<any>) => void;
         /**
-          * Evento disparado para validação de padrão regex.
+          * Event emitted for regex pattern validation.
          */
         "onBdsPatternValidation"?: (event: BdsInputCustomEvent<any>) => void;
         /**
-          * Evento disparado quando o formulário é submetido.
+          * Event emitted when the form is submitted.
          */
         "onBdsSubmit"?: (event: BdsInputCustomEvent<any>) => void;
         /**
-          * Define um padrão regex que o valor do input deve seguir.
+          * Defines a regex pattern that the input value must follow.
          */
         "pattern"?: string;
         /**
-          * Texto que será exibido como sugestão ou dica no input.
+          * Text to be displayed as a hint or placeholder in the input.
          */
         "placeholder"?: string;
         /**
-          * Torna o input somente leitura.
+          * Makes the input read-only.
          */
         "readonly"?: boolean;
         /**
-          * Define se o input é obrigatório.
+          * Defines if the input is required.
          */
         "required"?: boolean;
         /**
-          * Mensagem de erro exibida quando o input não é preenchido e é obrigatório.
+          * Error message displayed when the input is not filled and is required.
          */
         "requiredErrorMessage"?: string;
         /**
-          * Define a quantidade de linhas da área de texto (se for `textarea`).
+          * Defines whether the textarea can be manually resized by the user.
+         */
+        "resizable"?: boolean;
+        /**
+          * Defines the number of lines for the textarea (if `textarea`).
          */
         "rows"?: number;
         /**
-          * Define se o input está em estado de sucesso.
+          * Defines if the input is in success state.
          */
         "success"?: boolean;
         /**
-          * Mensagem exibida quando o valor do input é válido.
+          * Message displayed when the input value is valid.
          */
         "successMessage"?: string;
         /**
-          * Define o tipo do input (por exemplo, `text`, `password`, etc).
+          * Defines the input type (e.g., `text`, `password`, etc).
          */
         "type"?: InputType;
         /**
-          * O valor atual do input.
+          * The current value of the input.
          */
         "value"?: string | null;
     }
@@ -6625,6 +6709,10 @@ declare namespace LocalJSX {
          */
         "badgeShape"?: string;
         /**
+          * Inline styles to be applied to the tab group content element.
+         */
+        "contentStyle"?: string;
+        /**
           * Data test is the prop to specifically test the component action object.
          */
         "dataTest"?: string;
@@ -6632,6 +6720,14 @@ declare namespace LocalJSX {
           * Prop for disable the especific tab.
          */
         "disable"?: boolean;
+        /**
+          * Prop to indicate an error state for the tab.
+         */
+        "error"?: boolean;
+        /**
+          * Inline styles to be applied to the tab group header element.
+         */
+        "headerStyle"?: string;
         /**
           * The icon to be shown at the Tab item.
          */

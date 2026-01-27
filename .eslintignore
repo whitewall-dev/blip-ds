@@ -4,7 +4,6 @@ node_modules
 dist
 www
 loader
-cypress
 # don't lint nyc coverage output
 coverage
 
@@ -13,3 +12,6 @@ coverage
 # dont lint the blip-ds-react package
 blip-ds-react
 /src
+storybook-static
+jest.setup.ts
+jest.svg-transform.js

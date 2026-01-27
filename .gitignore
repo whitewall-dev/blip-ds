@@ -14,7 +14,6 @@ log.txt
 
 .stencil/
 .idea/
-.vscode/
 .sass-cache/
 .versions/
 .docs/
@@ -27,7 +26,6 @@ $RECYCLE.BIN/
 Thumbs.db
 UserInterfaceState.xcuserstate
 .env
-package-lock.json
 
 /coverage
 
@@ -35,10 +33,3 @@ icons/
 scripts/*.js
 
 /screenshot
-
-cypress/assets/
-cypress/build/
-cypress/dist/
-cypress/screenshots/
-cypress/host.config.json
-cypress/index.html
