@@ -36,9 +36,9 @@
   },
   "devDependencies": {
     "@babel/core": "7.23.7",
-    "@stencil/core": "4.22.2",
+    "@stencil/core": "4.41.3",
     "@stencil/react-output-target": "0.5.3",
-    "@stencil/sass": "3.0.12",
+    "@stencil/sass": "3.2.3",
     "@storybook/addon-actions": "7.0.22",
     "@storybook/addon-essentials": "^7.0.22",
     "@storybook/addon-interactions": "^7.0.22",
@@ -91,7 +91,7 @@
     "@storybook/addon-docs": "^7.6.20",
     "@storybook/preset-create-react-app": "^7.6.20",
     "autoprefixer": "^10.4.7",
-    "blip-tokens": "^1.98.0",
+    "blip-tokens": "^1.100.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0"
   },

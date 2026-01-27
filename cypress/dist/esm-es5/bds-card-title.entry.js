@@ -1,0 +1,1 @@
+import{r as registerInstance,h}from"./index-DSFaLz79.js";var cardTitleCss="";var CardTitle=function(){function t(t){registerInstance(this,t)}t.prototype.render=function(){return h("bds-typo",{key:"f077669a5ed290acef888328dc3308d216906df6",variant:"fs-20",tag:"h4",margin:false,bold:"bold"},this.text)};return t}();CardTitle.style=cardTitleCss;export{CardTitle as bds_card_title};

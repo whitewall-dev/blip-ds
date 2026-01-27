@@ -1,0 +1,1 @@
+import{r as a,h as o}from"./p-DSFaLz79.js";const d=class{constructor(o){a(this,o)}render(){return o("div",{key:"070f9d83349720edb50657f7eb4f4f3b5562c2aa",class:"modal__action"},o("slot",{key:"fccfabd1af7f4d2512b44740396ed2bbc91a4a23"}))}};d.style=".modal__action{display:-ms-flexbox;display:flex;padding-top:16px;bottom:32px;right:32px}";export{d as bds_modal_action}
