@@ -1,0 +1,26 @@
+{
+  "name": "whitewall-blip-ds",
+  "owner": {
+    "name": "White Wall"
+  },
+  "metadata": {
+    "description": "Marketplace for the Blip Design System plugin",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "blip-ds",
+      "source": "./..",
+      "description": "Develop with Blip Design System",
+      "version": "1.0.0",
+      "author": {
+        "name": "White Wall"
+      },
+      "homepage": "https://github.com/whitewall-dev/blip-ds",
+      "repository": "https://github.com/whitewall-dev/blip-ds",
+      "license": "MIT",
+      "category": "design-system",
+      "tags": ["blip", "design-system", "web-components"]
+    }
+  ]
+}

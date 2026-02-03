@@ -1,0 +1,11 @@
+{
+    "name": "blip-ds",
+    "description": "Develop with Blip Design System",
+    "version": "1.0.0",
+    "author": {
+        "name": "White Wall"
+    },
+    "homepage": "https://github.com/whitewall-dev/blip-ds",
+    "repository": "https://github.com/whitewall-dev/blip-ds",
+    "license": "MIT"
+}
