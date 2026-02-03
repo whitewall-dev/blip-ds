@@ -76,3 +76,7 @@ Class reference and usage details live in `references/tailwind.md`.
 ## Component API Reference
 
 Use `references/components-api.md` for the full list of component props, events, and methods. Events are listed by their DOM event name.
+
+## Asset Catalog (Icons, Logos, Emojis, Illustrations)
+
+Use `references/assets.md` for the full, project-independent list of available icon, logo, emoji, and illustration names.
