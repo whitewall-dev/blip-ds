@@ -945,7 +945,7 @@ None.
 | `alt` | `string` | Alternative text for the image. |
 | `dataTest` | `string` | Data test is the prop to specifically test the component action object. @default null |
 | `name` | `string` | Specifies the name of illustration. Verify the names on illustration tokens. |
-| `type` | `IllustrationType` | Specifies the type to use. Can be: 'default'. @default 'default' |
+| `type` | `IllustrationType` | Specifies the type to use. Can be: 'default', 'screens', 'blip-solid', 'blip-outline', 'logo-integration', 'empty-states', 'brand', 'segmented', 'smartphone', 'spots'. @default 'default' |
 
 ### Events
 None.

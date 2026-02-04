@@ -1381,7 +1381,7 @@ winking-face-with-tongue
 
 ## Illustrations
 
-Illustrations are grouped by `type`. Use the name as the `name` prop.
+Illustrations are grouped by `type`. Use the section heading as the `type` prop and the item as the `name` prop. The `type` prop is required unless it is `default` (still recommended to include). Example: `<bds-illustration type="brand" name="blip-status-blue-black"></bds-illustration>`.
 
 ### blip-outline
 

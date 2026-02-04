@@ -1385,7 +1385,7 @@ export namespace Components {
          */
         "name": string;
         /**
-          * Specifies the type to use. Can be: 'default'.
+          * Specifies the type to use. Can be: 'default', 'screens', 'blip-solid', 'blip-outline', 'logo-integration', 'empty-states', 'brand', 'segmented', 'smartphone', 'spots'.
           * @default 'default'
          */
         "type": IllustrationType;
@@ -6481,7 +6481,7 @@ declare namespace LocalJSX {
          */
         "name"?: string;
         /**
-          * Specifies the type to use. Can be: 'default'.
+          * Specifies the type to use. Can be: 'default', 'screens', 'blip-solid', 'blip-outline', 'logo-integration', 'empty-states', 'brand', 'segmented', 'smartphone', 'spots'.
           * @default 'default'
          */
         "type"?: IllustrationType;

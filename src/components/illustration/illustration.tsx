@@ -1,6 +1,6 @@
 import { Component, h, Host, Prop, State } from '@stencil/core';
 import { IllustrationType } from './illustration-interface';
-import packageJson from '../../../package.json';
+import { dependencies } from '../../../package.json';
 
 @Component({
   tag: 'bds-illustration',
@@ -12,7 +12,8 @@ export class BdsIllustration {
   @State() private IllustrationContent?: string;
 
   /**
-   * Specifies the type to use. Can be: 'default'.
+   * Specifies the type to use. Can be: 'default', 'screens', 'blip-solid', 'blip-outline',
+   * 'logo-integration', 'empty-states', 'brand', 'segmented', 'smartphone', 'spots'.
    */
   @Prop() type: IllustrationType = 'default';
   /**
@@ -35,8 +36,8 @@ export class BdsIllustration {
   }
 
   /**Function to map the svg and call the "formatSvg" function */
-  setIllustrationContent = () => {
-    const tokensVersion = packageJson.devDependencies['blip-tokens'].replace('^', '');
+  setIllustrationContent = async () => {
+    const tokensVersion = dependencies['blip-tokens'].replace('^', '');
     const apiUrl = `https://cdn.jsdelivr.net/npm/blip-tokens@${tokensVersion}/build/json/illustrations/${this.type}/${this.name}.json`;
     fetch(apiUrl).then((response) =>
       response.json().then((data) => {
