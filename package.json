@@ -1,6 +1,6 @@
 {
   "name": "@whitewall/blip-ds",
-  "version": "1.310.2",
+  "version": "1.310.3",
   "description": "Blip Design System",
   "main": "./dist/index.cjs.js",
   "collection": "./dist/collection/collection-manifest.json",

@@ -40,6 +40,7 @@ export const config: Config = {
     slotChildNodesFix: true,
     enableImportInjection: true,
   },
+  invisiblePrehydration: false,
   testing: {
     browserArgs: ['--no-sandbox', '--disable-setuid-sandbox'],
     collectCoverageFrom: ['src/**/*.{ts,tsx}'],
