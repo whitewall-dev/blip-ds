@@ -1,12 +1,14 @@
 ---
 name: blip-ds
-description: Use when implementing Blip Design System web components from `@whitewall/blip-ds` in non-React projects; configuring themes or CSS tokens; or looking up component props, events, and methods.
+description: Use when implementing Blip Design System web components from `@whitewall/blip-ds` in non-React projects; applying Tailwind classes from the Blip DS; configuring themes or CSS tokens; or looking up component props, events, and methods.
 ---
 
 # Blip DS Web Components
 
 ## Overview
-Use this skill to integrate Blip DS web components and apply Blip design tokens (colors and typography) in other projects.
+Use this skill to integrate Blip DS web components and apply Blip styling in other projects.
+
+Default rule: prefer Blip Tailwind utility classes for styling. Use raw CSS variables only for theme-level overrides or when a utility does not exist.
 
 ## Quick Start (Web Components)
 
@@ -51,7 +53,7 @@ defineCustomElements(window);
 </bds-theme-provider>
 ```
 
-- Override CSS variables at `:root` or on `bds-theme-provider`:
+- Override CSS variables at `:root` or on `bds-theme-provider` only when you need a global theme customization:
 
 ```css
 :root {
@@ -64,7 +66,7 @@ defineCustomElements(window);
 
 ## Tailwind Plugin
 
-Use the Tailwind CSS-first setup and load the plugin from your CSS:
+This is the primary styling path. Load the plugin from your CSS:
 
 ```css
 @import "tailwindcss";

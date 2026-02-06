@@ -1,6 +1,8 @@
 # Blip DS Colors
 
-Use CSS variables (e.g., `--color-primary`) to theme components. The SCSS tokens below map to those variables and define light/dark defaults.
+Prefer Tailwind classes from `references/tailwind.md` in day-to-day styling. Use this file when you need theme-level token overrides, CSS variable references, or raw token values.
+
+CSS variables (e.g., `--color-primary`) are the underlying source for those utilities. The SCSS tokens below map to those variables and define light/dark defaults.
 
 ## Brand
 | Token | CSS Variable | Light Value | Dark Value | Usage |

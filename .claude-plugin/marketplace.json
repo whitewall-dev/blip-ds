@@ -5,14 +5,14 @@
   },
   "metadata": {
     "description": "Marketplace for the Blip Design System plugin",
-    "version": "1.0.3"
+    "version": "1.0.4"
   },
   "plugins": [
     {
       "name": "blip-ds",
       "source": "./",
       "description": "Develop with Blip Design System",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "author": {
         "name": "White Wall"
       },

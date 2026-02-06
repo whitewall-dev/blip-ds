@@ -34,10 +34,6 @@ export const config: Config = {
   ],
   buildEs5: false,
   extras: {
-    appendChildSlotFix: true,
-    scriptDataOpts: true,
-    cloneNodeFix: false,
-    slotChildNodesFix: true,
     enableImportInjection: true,
   },
   invisiblePrehydration: false,

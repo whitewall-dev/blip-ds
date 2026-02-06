@@ -2,6 +2,8 @@
 
 Use the Tailwind plugin from `@whitewall/blip-ds/tailwind` to get Blip DS tokens as Tailwind classes.
 
+Default rule: use these Tailwind classes first. Reach for raw CSS variables only for global theming or when a class is missing.
+
 ## Install
 
 ```bash
@@ -71,4 +73,5 @@ Use background image utilities:
 ## Notes
 
 - These classes reference CSS variables like `--color-primary`. Ensure Blip DS styles are loaded or define your own variables.
+- Prefer utility classes such as `text-primary`, `bg-surface-1`, and `bg-gradient-ocean` instead of writing `var(--...)` directly in component styles.
 - For component usage, see `SKILL.md` and `references/components-api.md`.
