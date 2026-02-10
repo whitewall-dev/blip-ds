@@ -59,19 +59,6 @@ export const colors = {
   },
 }
 
-export const backgroundImage = {
-  'gradient-rose': 'var(--color-gradient-rose)',
-  'gradient-phoenix': 'var(--color-gradient-phoenix)',
-  'gradient-cactus': 'var(--color-gradient-cactus)',
-  'gradient-tree': 'var(--color-gradient-tree)',
-  'gradient-ocean': 'var(--color-gradient-ocean)',
-  'gradient-smurf': 'var(--color-gradient-smurf)',
-  'gradient-grape': 'var(--color-gradient-grape)',
-  'gradient-fabulous': 'var(--color-gradient-fabulous)',
-  'gradient-street': 'var(--color-gradient-street)',
-  'gradient-universe': 'var(--color-gradient-universe)',
-}
-
 export const fontFamily = {
   blip: ['"Nunito Sans"', 'Carbona', 'Tahoma', 'Helvetica', 'Arial', 'sans-serif'],
 }
@@ -104,7 +91,6 @@ export const fontWeight = {
 
 const theme = {
   colors,
-  backgroundImage,
   fontFamily,
   fontSize,
   lineHeight,

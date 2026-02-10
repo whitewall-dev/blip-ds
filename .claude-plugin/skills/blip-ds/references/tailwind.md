@@ -48,21 +48,6 @@ All colors map to CSS variables so theming works with `bds-theme-provider` or yo
 - Actions: `bg-hover`, `bg-pressed`
 - Shadows (as colors): `text-shadow-0`, `text-shadow-1`
 
-## Gradients
-
-Use background image utilities:
-
-- `bg-gradient-rose`
-- `bg-gradient-phoenix`
-- `bg-gradient-cactus`
-- `bg-gradient-tree`
-- `bg-gradient-ocean`
-- `bg-gradient-smurf`
-- `bg-gradient-grape`
-- `bg-gradient-fabulous`
-- `bg-gradient-street`
-- `bg-gradient-universe`
-
 ## Typography
 
 - Font family: `font-blip`
@@ -73,5 +58,5 @@ Use background image utilities:
 ## Notes
 
 - These classes reference CSS variables like `--color-primary`. Ensure Blip DS styles are loaded or define your own variables.
-- Prefer utility classes such as `text-primary`, `bg-surface-1`, and `bg-gradient-ocean` instead of writing `var(--...)` directly in component styles.
+- Prefer utility classes such as `text-primary` and `bg-surface-1` instead of writing `var(--...)` directly in component styles.
 - For component usage, see `SKILL.md` and `references/components-api.md`.
