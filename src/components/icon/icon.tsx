@@ -4,10 +4,11 @@ import { IconSize, IconTheme, IconType } from './icon-interface';
 import { formatSvg, getIconName, getEmojiName, getLogoName } from './utils';
 
 type AssetMap = Record<string, string>;
+type IconBucket = 'non-flag-outline' | 'non-flag-solid' | 'flag-outline' | 'flag-solid';
 
-let iconsPromise: Promise<AssetMap> | null = null;
 let emojisPromise: Promise<AssetMap> | null = null;
 let logosPromise: Promise<AssetMap> | null = null;
+const iconBucketsPromise: Partial<Record<IconBucket, Promise<AssetMap>>> = {};
 
 const getAsset = (assets: AssetMap, key: string): string => {
   const raw = assets[key];
@@ -17,13 +18,40 @@ const getAsset = (assets: AssetMap, key: string): string => {
   return raw;
 };
 
-const loadIcons = async (): Promise<AssetMap> => {
-  if (!iconsPromise) {
-    iconsPromise = import('../../assets/blip-tokens/assets_icons.json').then(
+const iconBucketLoaders: Record<IconBucket, () => Promise<AssetMap>> = {
+  'non-flag-outline': async () =>
+    import('../../assets/blip-tokens/assets_icons_non_flag_outline.json').then(
       (module) => (module.default ?? module) as AssetMap,
-    );
+    ),
+  'non-flag-solid': async () =>
+    import('../../assets/blip-tokens/assets_icons_non_flag_solid.json').then(
+      (module) => (module.default ?? module) as AssetMap,
+    ),
+  'flag-outline': async () =>
+    import('../../assets/blip-tokens/assets_icons_flag_outline.json').then(
+      (module) => (module.default ?? module) as AssetMap,
+    ),
+  'flag-solid': async () =>
+    import('../../assets/blip-tokens/assets_icons_flag_solid.json').then(
+      (module) => (module.default ?? module) as AssetMap,
+    ),
+};
+
+const resolveIconBucket = (name: string, theme: IconTheme): IconBucket => {
+  const isFlag = name.includes('-flag');
+
+  if (isFlag && theme === 'solid') return 'flag-solid';
+  if (isFlag && theme === 'outline') return 'flag-outline';
+  if (!isFlag && theme === 'solid') return 'non-flag-solid';
+
+  return 'non-flag-outline';
+};
+
+const loadIconBucket = async (bucket: IconBucket): Promise<AssetMap> => {
+  if (!iconBucketsPromise[bucket]) {
+    iconBucketsPromise[bucket] = iconBucketLoaders[bucket]();
   }
-  return iconsPromise;
+  return iconBucketsPromise[bucket];
 };
 
 const loadEmojis = async (): Promise<AssetMap> => {
@@ -181,10 +209,12 @@ export class Icon {
     let svg;
     try {
       if (type === 'icon') {
-        const icons = await loadIcons();
+        const bucket = resolveIconBucket(name, theme);
+        const icons = await loadIconBucket(bucket);
         if (this.loadId !== loadId) return;
         const key = getIconName(name, theme);
         svg = getAsset(icons, key);
+
         this.svgContent = formatSvg(svg, color);
       } else if (type === 'emoji') {
         const emojiMap = await loadEmojis();
