@@ -1,19 +1,26 @@
 {
   "name": "@whitewall/blip-ds",
-  "version": "1.310.5",
+  "version": "1.310.6",
   "description": "Blip Design System",
+  "types": "./dist/types/index.d.ts",
   "main": "./dist/index.cjs.js",
   "collection": "./dist/collection/collection-manifest.json",
   "collection:main": "./dist/collection/index.js",
   "exports": {
     ".": {
+      "types": "./dist/types/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs.js"
     },
     "./loader": {
+      "types": "./types/loader-svelte.d.ts",
       "import": "./loader/index.js",
       "require": "./loader/index.cjs.js"
     },
+    "./svelte-elements": {
+      "types": "./types/svelte-elements.d.ts"
+    },
+    "./vscode.html-data.json": "./types/vscode.html-data.json",
     "./tailwind": {
       "types": "./tailwind/index.d.ts",
       "import": "./tailwind/index.mjs"
@@ -22,7 +29,8 @@
   "files": [
     "dist/",
     "loader/",
-    "tailwind/"
+    "tailwind/",
+    "types/"
   ],
   "scripts": {
     "generate": "stencil generate",
@@ -31,7 +39,7 @@
     "start": "npm run build:icons && stencil build --dev --watch --serve --docs",
     "build": "npm run build:component",
     "build:icons": "node scripts/build-icon-assets.mjs",
-    "build:component": "npm run build:icons && stencil build --docs --prod",
+    "build:component": "npm run build:icons && stencil build --docs --prod && npm run build:custom-data",
     "build:watch": "npm run build:icons && stencil build --watch",
     "build:react": "cd ./blip-ds-react && npm install && npm run build",
     "test": "npm run build:icons && stencil test --spec --e2e --screenshot --coverage",
@@ -41,7 +49,8 @@
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
     "eslint": "eslint . --ext .jsx,.ts,.tsx --fix",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "build:custom-data": "node scripts/generate-vscode-html-data.mjs"
   },
   "devDependencies": {
     "@babel/core": "7.23.7",
