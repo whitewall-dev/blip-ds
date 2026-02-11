@@ -514,9 +514,11 @@ function buildPropertyFallbackDescription(attrName, values) {
 }
 
 function writeSvelteTypeFiles() {
-    const svelteElementsSource = `type PrimitiveAttr = string | number | boolean | null | undefined;
+    const svelteElementsSource = `import type { HTMLAttributes } from 'svelte/elements';
+
+type PrimitiveAttr = string | number | boolean | null | undefined;
 type BlipDSIntrinsicElements = import('../loader/index').JSX.IntrinsicElements;
-type GlobalElementAttributes = import('svelte/elements').SvelteHTMLElements['div'];
+type GlobalElementAttributes = HTMLAttributes<HTMLElement>;
 
 type KebabCase<S extends string, IsFirst extends boolean = true> = S extends \`\${infer C}\${infer R}\`
   ? C extends Lowercase<C>
@@ -545,7 +547,7 @@ type BlipDSElements = {
 };
 
 declare module 'svelte/elements' {
-  interface SvelteHTMLElements extends BlipDSElements {}
+  export interface SvelteHTMLElements extends BlipDSElements {}
 }
 
 declare global {
@@ -555,6 +557,8 @@ declare global {
     interface IntrinsicElements extends BlipDSElements {}
   }
 }
+
+export {};
 `
 
     const loaderSvelteSource = "/// <reference path=\"./svelte-elements.d.ts\" />\n\nexport * from '../loader/index';\n"
