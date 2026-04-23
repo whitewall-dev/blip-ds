@@ -31,8 +31,10 @@ if (!intrinsicMatch) {
 
 const intrinsicBlock = intrinsicMatch[1]
 const tagToInterface = new Map()
-for (const match of intrinsicBlock.matchAll(/"([^"]+)"\s*:\s*([A-Za-z0-9_]+)\s*;/g)) {
-    const [, tagName, interfaceName] = match
+for (const match of intrinsicBlock.matchAll(/"([^"]+)"\s*:\s*([^;]+);/g)) {
+    const [, tagName, typeExpression] = match
+    const interfaceName = resolveIntrinsicInterfaceName(typeExpression)
+    if (!interfaceName) continue
     tagToInterface.set(tagName, interfaceName)
 }
 
@@ -105,6 +107,21 @@ function toKebabCase(value) {
 
 function uncapitalize(value) {
     return value ? value[0].toLowerCase() + value.slice(1) : value
+}
+
+function resolveIntrinsicInterfaceName(typeExpression) {
+    const normalized = typeExpression.trim()
+    const directMatch = normalized.match(/^([A-Za-z0-9_]+)$/)
+    if (directMatch) {
+        return directMatch[1]
+    }
+
+    const omitMatch = normalized.match(/^Omit<([A-Za-z0-9_]+)\s*,/)
+    if (omitMatch) {
+        return omitMatch[1]
+    }
+
+    return null
 }
 
 function walkFiles(dirPath, out = []) {

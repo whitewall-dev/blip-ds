@@ -1,6 +1,6 @@
 {
   "name": "@whitewall/blip-ds",
-  "version": "1.310.7",
+  "version": "1.319.1",
   "description": "Blip Design System",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/index.cjs.js",
@@ -35,11 +35,12 @@
   "scripts": {
     "generate": "stencil generate",
     "clear": "rimraf  node_modules/ && rimraf  dist/ && rimraf  www/",
-    "dev": "npm run build:icons && stencil build --docs && concurrently \"npm:build:watch\" \"npm:storybook\"",
-    "start": "npm run build:icons && stencil build --dev --watch --serve --docs",
+    "dev": "npm run build:icons && npm run build:tokens && stencil build --docs && concurrently \"npm:build:watch\" \"npm:storybook\"",
+    "start": "npm run build:icons && npm run build:tokens && stencil build --dev --watch --serve --docs",
     "build": "npm run build:component",
     "build:icons": "node scripts/build-icon-assets.mjs",
-    "build:component": "npm run build:icons && stencil build --docs --prod && npm run build:custom-data",
+    "build:tokens": "node scripts/build-theme-tokens.mjs",
+    "build:component": "npm run build:icons && npm run build:tokens && stencil build --docs --prod && npm run build:custom-data",
     "build:watch": "npm run build:icons && stencil build --watch",
     "build:react": "cd ./blip-ds-react && npm install && npm run build",
     "test": "npm run build:icons && stencil test --spec --e2e --screenshot --coverage",
@@ -54,7 +55,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.23.7",
-    "@stencil/core": "4.41.3",
+    "@stencil/core": "4.43.4",
     "@stencil/react-output-target": "0.5.3",
     "@stencil/sass": "3.2.3",
     "@storybook/addon-actions": "7.0.22",
