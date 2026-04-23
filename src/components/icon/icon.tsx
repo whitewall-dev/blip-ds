@@ -184,6 +184,7 @@ export class Icon {
   @Watch('name')
   @Watch('src')
   @Watch('icon')
+  @Watch('color')
   @Watch('theme')
   async loadIcon(): Promise<void> {
     if (!this.name) return;

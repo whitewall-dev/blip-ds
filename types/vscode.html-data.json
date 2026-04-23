@@ -822,6 +822,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -1054,6 +1057,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -1767,6 +1773,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -1794,7 +1803,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -1882,6 +1906,10 @@
             }
           ],
           "description": "Icon. Used to add icon in header accordion.\n\nHint: Default: `null`"
+        },
+        {
+          "name": "icon-color",
+          "description": "Icon color. Used to set the color of icons in the accordion header.\n\nHint: Default: `'inherit'`"
         }
       ]
     },
@@ -2640,6 +2668,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -2872,6 +2903,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -3585,6 +3619,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -3612,7 +3649,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -4476,6 +4528,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -4708,6 +4763,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -5421,6 +5479,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -5448,7 +5509,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -5540,6 +5616,30 @@
         {
           "name": "label",
           "description": "label in input, with he the input size increases.\n\nHint: Default: `''`"
+        },
+        {
+          "name": "language",
+          "values": [
+            {
+              "name": "en_US"
+            },
+            {
+              "name": "es_ES"
+            },
+            {
+              "name": "pt_BR"
+            },
+            {
+              "name": "en_US"
+            },
+            {
+              "name": "es_ES"
+            },
+            {
+              "name": "pt_BR"
+            }
+          ],
+          "description": "Language. Can be one of: 'pt_BR', 'es_ES', 'en_US'.\n\nHint: Default: `'pt_BR'` | Allowed: `en_US`, `es_ES`, `pt_BR`"
         },
         {
           "name": "loading",
@@ -6576,6 +6676,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -6808,6 +6911,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -7521,6 +7627,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -7548,7 +7657,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -8597,6 +8721,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -8829,6 +8956,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -9542,6 +9672,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -9569,7 +9702,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -10373,6 +10521,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -10605,6 +10756,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -11318,6 +11472,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -11345,7 +11502,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -12149,6 +12321,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -12381,6 +12556,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -13094,6 +13272,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -13121,7 +13302,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -14179,6 +14375,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -14411,6 +14610,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -15124,6 +15326,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -15151,7 +15356,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -15729,6 +15949,10 @@
         {
           "name": "disabled",
           "description": "If `true`, the user cannot interact with the checkbox.\n\nHint: Default: `false`"
+        },
+        {
+          "name": "indeterminate",
+          "description": "If `true`, the checkbox is in an indeterminate state. This is used when the checkbox is a parent of a list of checkboxes and some (but not all) of the child checkboxes are selected. Clicking when indeterminate will set the checkbox to checked.\n\nHint: Default: `false`"
         },
         {
           "name": "label",
@@ -16499,6 +16723,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -16731,6 +16958,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -17444,6 +17674,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -17471,7 +17704,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -18376,6 +18624,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -18608,6 +18859,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -19321,6 +19575,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -19348,7 +19605,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -20218,6 +20490,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -20450,6 +20725,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -21163,6 +21441,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -21190,7 +21471,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -22055,6 +22351,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -22287,6 +22586,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -23000,6 +23302,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -23027,7 +23332,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -25840,6 +26160,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -26072,6 +26395,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -26785,6 +27111,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -26812,7 +27141,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -27933,6 +28277,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -28165,6 +28512,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -28878,6 +29228,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -28905,7 +29258,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -29959,6 +30327,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -30191,6 +30562,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -30904,6 +31278,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -30931,7 +31308,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -32063,6 +32455,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -32295,6 +32690,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -33008,6 +33406,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -33035,7 +33436,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -33969,6 +34385,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -34201,6 +34620,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -34914,6 +35336,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -34941,7 +35366,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -35938,6 +36378,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -36170,6 +36613,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -36883,6 +37329,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -36910,7 +37359,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -38090,6 +38554,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -38322,6 +38789,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -39035,6 +39505,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -39062,7 +39535,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -39938,6 +40426,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -40170,6 +40661,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -40883,6 +41377,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -40910,7 +41407,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -41819,6 +42331,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -42051,6 +42566,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -42764,6 +43282,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -42791,7 +43312,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -43679,6 +44215,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -43911,6 +44450,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -44624,6 +45166,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -44651,7 +45196,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -46006,6 +46566,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -46238,6 +46801,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -46951,6 +47517,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -46978,7 +47547,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -47903,6 +48487,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -48135,6 +48722,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -48848,6 +49438,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -48875,7 +49468,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -49181,6 +49789,9 @@
         {
           "name": "background",
           "values": [
+            {
+              "name": "surface-0"
+            },
             {
               "name": "surface-1"
             },
@@ -50256,6 +50867,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -50488,6 +51102,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -51201,6 +51818,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -51228,7 +51848,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -52081,6 +52716,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -52313,6 +52951,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -53026,6 +53667,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -53053,7 +53697,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -54150,6 +54809,9 @@
               "name": "finland-flag"
             },
             {
+              "name": "fire"
+            },
+            {
               "name": "folder"
             },
             {
@@ -54382,6 +55044,9 @@
             },
             {
               "name": "link"
+            },
+            {
+              "name": "link-off"
             },
             {
               "name": "list"
@@ -55095,6 +55760,9 @@
               "name": "united-states-flag"
             },
             {
+              "name": "unlink"
+            },
+            {
               "name": "unlock"
             },
             {
@@ -55122,7 +55790,22 @@
               "name": "user-engaged"
             },
             {
+              "name": "user-entry"
+            },
+            {
+              "name": "user-exit"
+            },
+            {
               "name": "user-favorite"
+            },
+            {
+              "name": "user-lock"
+            },
+            {
+              "name": "user-sso"
+            },
+            {
+              "name": "user-woman"
             },
             {
               "name": "uzbekistn-flag"
@@ -55609,6 +56292,10 @@
         {
           "name": "onbdsUploadDelete",
           "description": "Event emited when delete a item from the list."
+        },
+        {
+          "name": "show-list-preview",
+          "description": "Used to show or hide the list preview of uploaded files.\n\nHint: Default: `true`"
         },
         {
           "name": "subtitle",
