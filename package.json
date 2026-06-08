@@ -24,13 +24,18 @@
     "./tailwind": {
       "types": "./tailwind/index.d.ts",
       "import": "./tailwind/index.mjs"
+    },
+    "./vite": {
+      "types": "./vite/index.d.ts",
+      "import": "./vite/index.mjs"
     }
   },
   "files": [
     "dist/",
     "loader/",
     "tailwind/",
-    "types/"
+    "types/",
+    "vite/"
   ],
   "scripts": {
     "generate": "stencil generate",
