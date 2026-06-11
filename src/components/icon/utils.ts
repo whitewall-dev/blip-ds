@@ -97,6 +97,20 @@ export const formatSvg = (svgContent: string | null, color: string | null, emoji
   return '';
 };
 
+const formattedSvgCache = new Map<string, string>();
+
+// formatSvg parses the asset through the DOM on every call; icons repeat a lot on a
+// page (and on the server every instance pays it), so memoize per asset/color.
+export const formatSvgCached = (key: string, svgContent: string | null, color: string | null, emoji = false): string => {
+  const cacheKey = `${key}|${color ?? ''}|${emoji}`;
+  let formatted = formattedSvgCache.get(cacheKey);
+  if (formatted === undefined) {
+    formatted = formatSvg(svgContent, color, emoji);
+    formattedSvgCache.set(cacheKey, formatted);
+  }
+  return formatted;
+};
+
 export const getIconName = (name: string, theme: IconTheme) => {
   return `asset-icon-${name}-${theme}`;
 };

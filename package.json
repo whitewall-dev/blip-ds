@@ -1,6 +1,6 @@
 {
   "name": "@whitewall/blip-ds",
-  "version": "1.319.2",
+  "version": "1.319.3",
   "description": "Blip Design System",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/index.cjs.js",
@@ -28,6 +28,15 @@
     "./vite": {
       "types": "./vite/index.d.ts",
       "import": "./vite/index.mjs"
+    },
+    "./hydrate": {
+      "types": "./hydrate/index.d.ts",
+      "import": "./hydrate/index.mjs",
+      "require": "./hydrate/index.js"
+    },
+    "./ssr": {
+      "types": "./ssr/index.d.ts",
+      "import": "./ssr/index.mjs"
     }
   },
   "files": [
@@ -35,7 +44,9 @@
     "loader/",
     "tailwind/",
     "types/",
-    "vite/"
+    "vite/",
+    "hydrate/",
+    "ssr/"
   ],
   "scripts": {
     "generate": "stencil generate",

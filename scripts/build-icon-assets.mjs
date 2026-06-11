@@ -1,4 +1,4 @@
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { readdir, readFile, writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { optimize } from 'svgo';
 
@@ -87,8 +87,37 @@ const splitIconBuckets = async (icons) => {
   ]);
 };
 
+// blip-tokens ships one json per illustration; bundle them into a lazy bucket per
+// type so components can import them locally instead of fetching from a CDN.
+const buildIllustrationBuckets = async () => {
+  const illustrationsDir = path.join(sourceDir, 'illustrations');
+  const types = await readdir(illustrationsDir);
+
+  for (const type of types) {
+    const typeDir = path.join(illustrationsDir, type);
+    const files = (await readdir(typeDir)).filter((file) => file.endsWith('.json'));
+    const bucket = {};
+
+    for (const file of files) {
+      const parsed = JSON.parse(await readFile(path.join(typeDir, file), 'utf8'));
+      for (const [key, value] of Object.entries(parsed)) {
+        if (typeof value !== 'string' || value.length === 0) {
+          continue;
+        }
+        const svg = decodeBase64(value);
+        const minified = minifySvg(svg);
+        bucket[key] = Buffer.from(optimizeSvg(minified, key)).toString('base64');
+      }
+    }
+
+    await writeAssetFile(`assets_illustrations_${type}.json`, bucket);
+  }
+};
+
 const buildAssets = async () => {
   await mkdir(outputDir, { recursive: true });
+
+  await buildIllustrationBuckets();
 
   for (const fileName of assets) {
     const sourcePath = path.join(sourceDir, fileName);

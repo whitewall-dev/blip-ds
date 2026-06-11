@@ -5,7 +5,7 @@ const PACKAGE = '@whitewall/blip-ds'
 const BLIP_PATH_RE = /[\\/]blip-ds[\\/]/
 
 const BUCKET_RE =
-  /[\\/]blip-ds[\\/].*[\\/](assets_icons_(?:non_)?flag_(?:outline|solid)|assets_emojis|assets_logos)(?:-[\w-]+)?\.js$/
+  /[\\/]blip-ds[\\/].*[\\/](assets_icons_(?:non_)?flag_(?:outline|solid)|assets_emojis|assets_logos|assets_illustrations_[a-z-]+)(?:-[\w-]+)?\.js$/
 
 const OBJECT_RE = /=\s*(\{[\s\S]*\})\s*;\s*export\b/
 
@@ -13,6 +13,11 @@ const ENTRY_TAG_RE = /[\\/]blip-ds[\\/].*[\\/]bds-([a-z0-9-]+)\.entry\.js$/
 
 const KEY_PREFIX_RE = /^asset-(?:icon|emoji|logo)-/
 const ICON_THEME_SUFFIX_RE = /-(?:outline|solid)$/
+// Illustration keys are `asset-{type}-{name}-svg`; the markup references `{name}`.
+// Types can contain dashes, so they must be enumerated to split type from name —
+// keep in sync with `IllustrationType` in src/components/illustration.
+const ILLUSTRATION_KEY_RE =
+  /^asset-(?:default|screens|blip-solid|blip-outline|logo-integration|empty-states|brand|segmented|smartphone|spots)-(.+)-svg$/
 
 const TOKEN_RE = /['"`]([a-z0-9][a-z0-9-]{0,48})['"`]/g
 const TAG_RE = /bds-[a-z0-9-]+/g
@@ -26,6 +31,8 @@ const isBlipModule = (id) => BLIP_PATH_RE.test(id)
 const pascalToTag = (name) => name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
 
 const assetKeyToName = (key) => {
+  const illustration = key.match(ILLUSTRATION_KEY_RE)
+  if (illustration) return illustration[1]
   const withoutPrefix = key.replace(KEY_PREFIX_RE, '')
   return key.startsWith('asset-icon-') ? withoutPrefix.replace(ICON_THEME_SUFFIX_RE, '') : withoutPrefix
 }
@@ -36,6 +43,23 @@ const collectMatches = (text, regex, into, group = 0) => {
 
 const collectRenderedTags = (text, into) => {
   for (const match of text.matchAll(MARKUP_TAG_RE)) into.add(pascalToTag(match[1]))
+}
+
+// Illustration names are too generic for token matching ('cookie', 'avatar', ...), so
+// their keys come from the rendered markup instead: every static `type`/`name` pair
+// becomes an exact key, and any dynamic usage falls back to broad name matching.
+const ILLUSTRATION_MARKUP_RE = /<(?:bds-illustration|BdsIllustration)\b[^>]*/g
+// The lookbehind rejects bound attributes (`:type="expr"` in Vue, `[type]="expr"` in
+// Angular), which would otherwise read the expression as a static value.
+const ATTR_VALUE_RE = (attr) => new RegExp(`(?<![:[\\w-])${attr}\\s*=\\s*"([^"{]*)"`)
+
+const collectIllustrationUsage = (text, usage) => {
+  for (const [markup] of text.matchAll(ILLUSTRATION_MARKUP_RE)) {
+    const type = markup.match(ATTR_VALUE_RE('type'))?.[1] ?? 'default'
+    const name = markup.match(ATTR_VALUE_RE('name'))?.[1]
+    if (name && !markup.includes('{')) usage.keys.add(`asset-${type}-${name}-svg`)
+    else usage.dynamic = true
+  }
 }
 
 /**
@@ -111,15 +135,39 @@ export function blipDsAssetPurge(options = {}) {
       const usedNames = new Set(safelist)
       const sourceModules = new Set()
       for (const chunk of chunks) {
-        const isBlipChunk = chunk.moduleIds.length > 0 && chunk.moduleIds.every(isBlipModule)
-        if (!isBlipChunk) collectMatches(chunk.code, TOKEN_RE, usedNames, 1)
+        // In chunks that mix app and blip-ds code (e.g. the hydrate script inlined into
+        // hooks.server.js) tokens are collected per rendered module, so blip-ds code
+        // doesn't feed its own asset names back into the match set. When the bundler
+        // doesn't expose a rendered app module's code, the whole chunk is matched again
+        // rather than risking dropping assets the app actually uses.
+        if (!chunk.moduleIds.some(isBlipModule)) {
+          collectMatches(chunk.code, TOKEN_RE, usedNames, 1)
+        } else {
+          let appCodeMissing = false
+          for (const [id, rendered] of Object.entries(chunk.modules)) {
+            if (isBlipModule(id)) continue
+            if (rendered.code) collectMatches(rendered.code, TOKEN_RE, usedNames, 1)
+            else appCodeMissing = true
+          }
+          if (appCodeMissing) collectMatches(chunk.code, TOKEN_RE, usedNames, 1)
+        }
         for (const id of chunk.moduleIds) {
-          if (!isBlipModule(id) && !id.includes('\0') && SOURCE_RE.test(id)) sourceModules.add(id)
+          // tree-shaken modules (renderedLength 0) are in the graph but ship no code,
+          // so what they render must not keep assets alive
+          const rendered = (chunk.modules[id]?.renderedLength ?? 1) > 0
+          if (rendered && !isBlipModule(id) && !id.includes('\0') && SOURCE_RE.test(id)) sourceModules.add(id)
         }
       }
 
       const seedTags = new Set()
-      await Promise.all([...sourceModules].map(async (id) => collectRenderedTags(await readModule(id), seedTags)))
+      const illustrationUsage = { keys: new Set(), dynamic: false }
+      await Promise.all(
+        [...sourceModules].map(async (id) => {
+          const source = await readModule(id)
+          collectRenderedTags(source, seedTags)
+          collectIllustrationUsage(source, illustrationUsage)
+        }),
+      )
 
       const visited = new Set()
       const queue = [...seedTags].map((tag) => tagToEntryModule.get(tag)).filter((id) => id !== undefined)
@@ -157,10 +205,16 @@ export function blipDsAssetPurge(options = {}) {
         }
 
         const bucketId = chunk.moduleIds[0]
+        const isIllustrationBucket = /assets_illustrations_/.test(bucketId)
         const assets = buckets.get(bucketId)
         const kept = {}
         for (const [key, value] of Object.entries(assets)) {
-          if (usedNames.has(assetKeyToName(key))) kept[key] = value
+          const keep = isIllustrationBucket
+            ? illustrationUsage.keys.has(key) ||
+              safelist.includes(assetKeyToName(key)) ||
+              (illustrationUsage.dynamic && usedNames.has(assetKeyToName(key)))
+            : usedNames.has(assetKeyToName(key))
+          if (keep) kept[key] = value
         }
 
         chunk.code = `export default ${JSON.stringify(kept)}`

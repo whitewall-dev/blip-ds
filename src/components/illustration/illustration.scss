@@ -1,13 +1,14 @@
+// Styled on the bare :host (not :host(.bds-illustration)) because frameworks that
+// hydrate over server-rendered markup (Svelte, React) reset the host's class
+// attribute to the template value, dropping runtime classes until the component
+// re-renders — the image must keep its size through that window.
 :host {
   .illustration {
     display: flex;
     height: 100%;
     width: auto;
   }
-  
-}
 
-:host(.bds-illustration) {
   img {
     width: 100%;
     height: 100%;

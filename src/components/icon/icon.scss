@@ -16,7 +16,12 @@ $icon-small: 20px;
 $icon-x-small: 16px;
 $icon-xx-small: 12px;
 
+// Sizing and display live on the bare :host and on the size attribute because
+// frameworks that hydrate over server-rendered markup (Svelte, React) reset the
+// host's class attribute to the template value, dropping the runtime classes
+// until the component re-renders.
 :host {
+  display: inline-block;
   width: 1em;
   height: 1em;
   color: $color-content-default;
@@ -24,6 +29,12 @@ $icon-xx-small: 12px;
   fill: currentColor;
 
   box-sizing: content-box !important;
+
+  svg {
+    fill: currentColor;
+    width: 100%;
+    min-width: 100%;
+  }
 }
 
 .icon-inner {
@@ -46,38 +57,47 @@ $icon-xx-small: 12px;
   }
 }
 
-:host(.bds-icon__size--brand) {
+:host(.bds-icon__size--brand),
+:host([size='brand']) {
   @include size($icon-brand);
 }
 
-:host(.bds-icon__size--xxx-large) {
+:host(.bds-icon__size--xxx-large),
+:host([size='xxx-large']) {
   @include size($icon-xxx-large);
 }
 
-:host(.bds-icon__size--xx-large) {
+:host(.bds-icon__size--xx-large),
+:host([size='xx-large']) {
   @include size($icon-xx-large);
 }
 
-:host(.bds-icon__size--x-large) {
+:host(.bds-icon__size--x-large),
+:host([size='x-large']) {
   @include size($icon-x-large);
 }
 
-:host(.bds-icon__size--large) {
+:host(.bds-icon__size--large),
+:host([size='large']) {
   @include size($icon-large);
 }
 
-:host(.bds-icon__size--medium) {
+:host(.bds-icon__size--medium),
+:host([size='medium']) {
   @include size($icon-medium);
 }
 
-:host(.bds-icon__size--small) {
+:host(.bds-icon__size--small),
+:host([size='small']) {
   @include size($icon-small);
 }
 
-:host(.bds-icon__size--x-small) {
+:host(.bds-icon__size--x-small),
+:host([size='x-small']) {
   @include size($icon-x-small);
 }
 
-:host(.bds-icon__size--xx-small) {
+:host(.bds-icon__size--xx-small),
+:host([size='xx-small']) {
   @include size($icon-xx-small);
 }

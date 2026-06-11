@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Build, Component, Element, Host, Prop, State, Watch, h } from '@stencil/core';
 import { IconSize, IconTheme, IconType } from './icon-interface';
-import { formatSvg, getIconName, getEmojiName, getLogoName } from './utils';
+import { formatSvgCached, getIconName, getEmojiName, getLogoName } from './utils';
 
 type AssetMap = Record<string, string>;
 type IconBucket = 'non-flag-outline' | 'non-flag-solid' | 'flag-outline' | 'flag-solid';
@@ -147,6 +147,19 @@ export class Icon {
   @Prop() dataTest?: string = null;
 
   connectedCallback(): void {
+    if (!Build.isBrowser) {
+      return;
+    }
+
+    // adopt the server-rendered svg instead of loading the asset again; prop changes
+    // still reload through the watchers
+    const serverRendered = this.el.shadowRoot?.querySelector('.icon-inner, .emoji-inner, .logo-inner')?.innerHTML;
+    if (serverRendered) {
+      this.svgContent = serverRendered;
+      this.isVisible = true;
+      return;
+    }
+
     // purposely do not return the promise here because loading
     // the svg file should not hold up loading the app
     // only load the svg if it's visible
@@ -154,6 +167,15 @@ export class Icon {
       this.isVisible = true;
       this.loadIcon();
     });
+  }
+
+  componentWillLoad(): Promise<void> | void {
+    // server-side rendering has no lazy loading: resolve the svg now so it is part
+    // of the serialized shadow DOM (the hydrate runtime awaits this promise)
+    if (!Build.isBrowser) {
+      this.isVisible = true;
+      return this.loadIcon();
+    }
   }
 
   disconnectedCallback(): void {
@@ -189,7 +211,7 @@ export class Icon {
   async loadIcon(): Promise<void> {
     if (!this.name) return;
 
-    if (Build.isBrowser && this.isVisible) {
+    if (this.isVisible) {
       await this.setSvgContent();
     }
 
@@ -216,19 +238,19 @@ export class Icon {
         const key = getIconName(name, theme);
         svg = getAsset(icons, key);
 
-        this.svgContent = formatSvg(svg, color);
+        this.svgContent = formatSvgCached(key, svg, color);
       } else if (type === 'emoji') {
         const emojiMap = await loadEmojis();
         if (this.loadId !== loadId) return;
         const key = getEmojiName(name);
         svg = getAsset(emojiMap, key);
-        this.svgContent = formatSvg(svg, color, true);
+        this.svgContent = formatSvgCached(key, svg, color, true);
       } else if (type === 'logo') {
         const logoMap = await loadLogos();
         if (this.loadId !== loadId) return;
         const key = getLogoName(name);
         svg = getAsset(logoMap, key);
-        this.svgContent = formatSvg(svg, color, true);
+        this.svgContent = formatSvgCached(key, svg, color, true);
       }
     } catch (err) {
       // eslint-disable-next-line no-console
