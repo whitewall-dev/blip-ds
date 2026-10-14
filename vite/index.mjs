@@ -62,6 +62,79 @@ const collectIllustrationUsage = (text, usage) => {
   }
 }
 
+const collectUsage = async (context, chunks, safelist) => {
+  const tagToEntryModule = new Map()
+  for (const id of context.getModuleIds()) {
+    const entry = id.match(ENTRY_TAG_RE)
+    if (entry) tagToEntryModule.set(`bds-${entry[1]}`, id)
+  }
+
+  const moduleCache = new Map()
+  const readModule = async (id) => {
+    let source = moduleCache.get(id)
+    if (source === undefined) {
+      source = await readFile(id, 'utf8').catch(() => '')
+      moduleCache.set(id, source)
+    }
+    return source
+  }
+
+  const usedNames = new Set(safelist)
+  const sourceModules = new Set()
+  for (const chunk of chunks) {
+    for (const [id, rendered] of Object.entries(chunk.modules)) {
+      // tree-shaken modules (renderedLength 0) are in the graph but ship no code,
+      // so what they render must not keep assets alive
+      if (rendered.renderedLength === 0) continue
+      // Tokens are collected per app module, so blip-ds code (e.g. the hydrate script
+      // inlined into hooks.server.js) doesn't feed its own asset names back into the
+      // match set. When the bundler doesn't expose a module's rendered code, its
+      // transformed code is matched instead: a superset, but never drops a used asset.
+      if (isBlipModule(id)) continue
+      const code = rendered.code ?? context.getModuleInfo(id)?.code
+      if (code) collectMatches(code, TOKEN_RE, usedNames, 1)
+      if (!id.includes('\0') && SOURCE_RE.test(id)) sourceModules.add(id)
+    }
+  }
+
+  const seedTags = new Set()
+  const illustrationUsage = { keys: new Set(), dynamic: false }
+  await Promise.all(
+    [...sourceModules].map(async (id) => {
+      const source = await readModule(id)
+      collectRenderedTags(source, seedTags)
+      collectIllustrationUsage(source, illustrationUsage)
+    }),
+  )
+
+  const visited = new Set()
+  const queue = [...seedTags].map((tag) => tagToEntryModule.get(tag)).filter((id) => id !== undefined)
+  while (queue.length > 0) {
+    const id = queue.pop()
+    if (visited.has(id) || !isBlipModule(id)) continue
+    visited.add(id)
+
+    const source = await readModule(id)
+    collectMatches(source, TOKEN_RE, usedNames, 1)
+
+    if (ENTRY_TAG_RE.test(id)) {
+      const childTags = new Set()
+      collectMatches(source, TAG_RE, childTags)
+      for (const tag of childTags) {
+        const child = tagToEntryModule.get(tag)
+        if (child && !visited.has(child)) queue.push(child)
+      }
+    }
+
+    const info = context.getModuleInfo(id)
+    for (const imported of info?.importedIds ?? []) {
+      if (isBlipModule(imported) && !visited.has(imported)) queue.push(imported)
+    }
+  }
+
+  return { usedNames, illustrationUsage }
+}
+
 /**
  * Tree-shakes the `@whitewall/blip-ds` icon/emoji/logo asset buckets down to the
  * assets actually reachable in the consuming app.
@@ -92,6 +165,7 @@ const collectIllustrationUsage = (text, usage) => {
 export function blipDsAssetPurge(options = {}) {
   const safelist = options.safelist ?? []
   const buckets = new Map()
+  let usagePromise = null
 
   return {
     name: 'blip-ds-asset-purge',
@@ -112,117 +186,44 @@ export function blipDsAssetPurge(options = {}) {
       this.warn(`${PACKAGE} asset-purge: could not parse asset bucket "${id}", left untouched`)
       return null
     },
-    async generateBundle(_options, bundle) {
-      const chunks = Object.values(bundle).filter((output) => output.type === 'chunk')
-      if (!chunks.some((chunk) => chunk.moduleIds.some((id) => buckets.has(id)))) return
+    renderStart() {
+      usagePromise = null
+    },
+    // The purge has to land in renderChunk: the chunk's content hash is computed from
+    // the code returned here, so each purge result gets its own file name. Rewriting in
+    // generateBundle would keep the hash of the full bucket, and browsers holding a
+    // purged bucket from an older build in their immutable cache would never fetch the
+    // assets a newer build started using.
+    async renderChunk(_code, chunk, _options, meta) {
+      if (!chunk.moduleIds.some((id) => buckets.has(id))) return null
 
-      const tagToEntryModule = new Map()
-      for (const id of this.getModuleIds()) {
-        const entry = id.match(ENTRY_TAG_RE)
-        if (entry) tagToEntryModule.set(`bds-${entry[1]}`, id)
+      // Buckets are lazy-imported, so each is normally its own chunk; if the bundler
+      // merged one with other code, rewriting the whole chunk would drop that code.
+      if (chunk.moduleIds.length !== 1) {
+        this.warn(`${PACKAGE} asset-purge: bucket chunk "${chunk.fileName}" is not isolated, left untouched`)
+        return null
       }
 
-      const moduleCache = new Map()
-      const readModule = async (id) => {
-        let source = moduleCache.get(id)
-        if (source === undefined) {
-          source = await readFile(id, 'utf8').catch(() => '')
-          moduleCache.set(id, source)
-        }
-        return source
+      usagePromise ??= collectUsage(this, Object.values(meta.chunks), safelist)
+      const { usedNames, illustrationUsage } = await usagePromise
+
+      const bucketId = chunk.moduleIds[0]
+      const isIllustrationBucket = /assets_illustrations_/.test(bucketId)
+      const assets = buckets.get(bucketId)
+      const kept = {}
+      for (const [key, value] of Object.entries(assets)) {
+        const keep = isIllustrationBucket
+          ? illustrationUsage.keys.has(key) ||
+            safelist.includes(assetKeyToName(key)) ||
+            (illustrationUsage.dynamic && usedNames.has(assetKeyToName(key)))
+          : usedNames.has(assetKeyToName(key))
+        if (keep) kept[key] = value
       }
 
-      const usedNames = new Set(safelist)
-      const sourceModules = new Set()
-      for (const chunk of chunks) {
-        // In chunks that mix app and blip-ds code (e.g. the hydrate script inlined into
-        // hooks.server.js) tokens are collected per rendered module, so blip-ds code
-        // doesn't feed its own asset names back into the match set. When the bundler
-        // doesn't expose a rendered app module's code, the whole chunk is matched again
-        // rather than risking dropping assets the app actually uses.
-        if (!chunk.moduleIds.some(isBlipModule)) {
-          collectMatches(chunk.code, TOKEN_RE, usedNames, 1)
-        } else {
-          let appCodeMissing = false
-          for (const [id, rendered] of Object.entries(chunk.modules)) {
-            if (isBlipModule(id)) continue
-            if (rendered.code) collectMatches(rendered.code, TOKEN_RE, usedNames, 1)
-            else appCodeMissing = true
-          }
-          if (appCodeMissing) collectMatches(chunk.code, TOKEN_RE, usedNames, 1)
-        }
-        for (const id of chunk.moduleIds) {
-          // tree-shaken modules (renderedLength 0) are in the graph but ship no code,
-          // so what they render must not keep assets alive
-          const rendered = (chunk.modules[id]?.renderedLength ?? 1) > 0
-          if (rendered && !isBlipModule(id) && !id.includes('\0') && SOURCE_RE.test(id)) sourceModules.add(id)
-        }
-      }
+      const label = bucketId.slice(bucketId.indexOf('assets_'))
+      this.info(`${PACKAGE} asset-purge: ${label} ${Object.keys(assets).length} → ${Object.keys(kept).length} assets`)
 
-      const seedTags = new Set()
-      const illustrationUsage = { keys: new Set(), dynamic: false }
-      await Promise.all(
-        [...sourceModules].map(async (id) => {
-          const source = await readModule(id)
-          collectRenderedTags(source, seedTags)
-          collectIllustrationUsage(source, illustrationUsage)
-        }),
-      )
-
-      const visited = new Set()
-      const queue = [...seedTags].map((tag) => tagToEntryModule.get(tag)).filter((id) => id !== undefined)
-      while (queue.length > 0) {
-        const id = queue.pop()
-        if (visited.has(id) || !isBlipModule(id)) continue
-        visited.add(id)
-
-        const source = await readModule(id)
-        collectMatches(source, TOKEN_RE, usedNames, 1)
-
-        if (ENTRY_TAG_RE.test(id)) {
-          const childTags = new Set()
-          collectMatches(source, TAG_RE, childTags)
-          for (const tag of childTags) {
-            const child = tagToEntryModule.get(tag)
-            if (child && !visited.has(child)) queue.push(child)
-          }
-        }
-
-        const info = this.getModuleInfo(id)
-        for (const imported of info?.importedIds ?? []) {
-          if (isBlipModule(imported) && !visited.has(imported)) queue.push(imported)
-        }
-      }
-
-      for (const chunk of chunks) {
-        if (!chunk.moduleIds.some((id) => buckets.has(id))) continue
-
-        // Buckets are lazy-imported, so each is normally its own chunk; if the bundler
-        // merged one with other code, rewriting the whole chunk would drop that code.
-        if (chunk.moduleIds.length !== 1) {
-          this.warn(`${PACKAGE} asset-purge: bucket chunk "${chunk.fileName}" is not isolated, left untouched`)
-          continue
-        }
-
-        const bucketId = chunk.moduleIds[0]
-        const isIllustrationBucket = /assets_illustrations_/.test(bucketId)
-        const assets = buckets.get(bucketId)
-        const kept = {}
-        for (const [key, value] of Object.entries(assets)) {
-          const keep = isIllustrationBucket
-            ? illustrationUsage.keys.has(key) ||
-              safelist.includes(assetKeyToName(key)) ||
-              (illustrationUsage.dynamic && usedNames.has(assetKeyToName(key)))
-            : usedNames.has(assetKeyToName(key))
-          if (keep) kept[key] = value
-        }
-
-        chunk.code = `export default ${JSON.stringify(kept)}`
-        chunk.map = null
-
-        const label = bucketId.slice(bucketId.indexOf('assets_'))
-        this.info(`${PACKAGE} asset-purge: ${label} ${Object.keys(assets).length} → ${Object.keys(kept).length} assets`)
-      }
+      return { code: `export default ${JSON.stringify(kept)}`, map: { mappings: '' } }
     },
   }
 }
