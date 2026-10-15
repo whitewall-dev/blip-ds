@@ -31,23 +31,23 @@ import { BdsCarousel } from '../carousel';
 import { BdsCarouselItem } from '../carousel-item';
 
 describe('bds-carousel', () => {
-  let mockSetInterval: jest.SpyInstance;
-  let mockClearInterval: jest.SpyInstance;
+  let mockSetTimeout: jest.SpyInstance;
+  let mockClearTimeout: jest.SpyInstance;
 
   beforeEach(() => {
-    // Mock interval functions to avoid real timers in tests
-    mockSetInterval = jest.spyOn(global, 'setInterval').mockImplementation(() => {
+    // Keep the autoplay timer from firing; the global setup runs timeouts synchronously
+    mockSetTimeout = jest.spyOn(global, 'setTimeout').mockImplementation(() => {
       return 123 as any; // Return a mock timer ID
     });
-    mockClearInterval = jest.spyOn(global, 'clearInterval').mockImplementation(() => {});
+    mockClearTimeout = jest.spyOn(global, 'clearTimeout').mockImplementation(() => {});
 
     // Reset all mocks
     jest.clearAllMocks();
   });
 
   afterEach(() => {
-    mockSetInterval.mockRestore();
-    mockClearInterval.mockRestore();
+    mockSetTimeout.mockRestore();
+    mockClearTimeout.mockRestore();
   });
 
   it('should render with default props', async () => {
@@ -266,7 +266,6 @@ describe('bds-carousel', () => {
     const component = new BdsCarousel();
     
     expect(component.itemActivated).toBe(1);
-    expect(component.seconds).toBe(0);
     expect(component.heightCarousel).toBe(240);
     expect(component.autoplayState).toBe('running');
   });
@@ -538,7 +537,7 @@ describe('bds-carousel', () => {
     // Pause autoplay
     await component.pauseAutoplay();
     expect(component.autoplayState).toBe('paused');
-    expect(mockClearInterval).toHaveBeenCalled();
+    expect(mockClearTimeout).toHaveBeenCalled();
     
     // Run autoplay
     await component.runAutoplay();
@@ -631,7 +630,84 @@ describe('bds-carousel', () => {
     const component = page.rootInstance;
     expect(component.autoplay).toBe(true);
     expect(component.autoplayTimeout).toBe(1000);
-    expect(component.secondsLimit).toBe(1); // 1000ms / 1000 = 1s
+  });
+
+  describe('autoplay timer', () => {
+    const setup = async () => {
+      const page = await newSpecPage({
+        components: [BdsCarousel, BdsCarouselItem],
+        html: `
+          <bds-carousel autoplay="true" autoplay-timeout="1000">
+            <bds-carousel-item>Item 1</bds-carousel-item>
+            <bds-carousel-item>Item 2</bds-carousel-item>
+            <bds-carousel-item>Item 3</bds-carousel-item>
+          </bds-carousel>
+        `,
+      });
+      const component = page.rootInstance;
+      jest.useFakeTimers();
+      // Restart the timer under fake timers
+      await component.setActivated(1);
+      return { page, component };
+    };
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    it('should advance to the next slide once the timeout elapses', async () => {
+      const { component } = await setup();
+
+      jest.advanceTimersByTime(999);
+      expect(component.itemActivated).toBe(1);
+      jest.advanceTimersByTime(1);
+      expect(component.itemActivated).toBe(2);
+      jest.advanceTimersByTime(1000);
+      expect(component.itemActivated).toBe(3);
+    });
+
+    it('should not re-render while waiting for the next slide', async () => {
+      const { page, component } = await setup();
+      const renderSpy = jest.spyOn(component, 'render');
+
+      jest.advanceTimersByTime(900);
+      // Flush pending renders; waitForChanges needs real timers
+      jest.useRealTimers();
+      await page.waitForChanges();
+      expect(renderSpy).not.toHaveBeenCalled();
+    });
+
+    it('should resume with the remaining time after a pause', async () => {
+      const { component } = await setup();
+
+      jest.advanceTimersByTime(600);
+      await component.pauseAutoplay();
+      jest.advanceTimersByTime(5000);
+      expect(component.itemActivated).toBe(1);
+
+      await component.runAutoplay();
+      jest.advanceTimersByTime(399);
+      expect(component.itemActivated).toBe(1);
+      jest.advanceTimersByTime(1);
+      expect(component.itemActivated).toBe(2);
+    });
+
+    it('should not stack timers when runAutoplay is called repeatedly', async () => {
+      const { component } = await setup();
+
+      await component.runAutoplay();
+      await component.runAutoplay();
+      jest.advanceTimersByTime(1000);
+      expect(component.itemActivated).toBe(2);
+    });
+
+    it('should stop the timer when disconnected', async () => {
+      const { page, component } = await setup();
+
+      page.root.remove();
+      jest.advanceTimersByTime(5000);
+      expect(component.itemActivated).toBe(1);
+    });
   });
 
   it('should handle mouse events for grab functionality', async () => {
