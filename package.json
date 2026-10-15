@@ -174,5 +174,13 @@
       "last 1 safari version"
     ]
   },
-  "license": "MIT"
+  "license": "MIT",
+  "allowScripts": {
+    "puppeteer": true,
+    "esbuild": true,
+    "core-js": false,
+    "core-js-pure": false,
+    "highlight.js": false,
+    "@parcel/watcher": false
+  }
 }
