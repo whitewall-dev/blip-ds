@@ -31,6 +31,7 @@ type BlipDSElements = {
 };
 
 declare module 'svelte/elements' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface -- module augmentation must be an interface
   export interface SvelteHTMLElements extends BlipDSElements {}
 }
 
@@ -38,6 +39,7 @@ declare global {
   // Compatibility for language servers that still read the svelteHTML namespace.
   // biome-ignore lint/style/noNamespace: required for svelte typing compatibility
   namespace svelteHTML {
+    // eslint-disable-next-line @typescript-eslint/no-empty-interface -- must merge with svelte's own interface
     interface IntrinsicElements extends BlipDSElements {}
   }
 }
