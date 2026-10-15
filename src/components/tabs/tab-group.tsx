@@ -130,6 +130,7 @@ export class BdsTabGroup {
         ...(item.icon !== undefined && { icon: item.icon }),
         ...(item.iconPosition !== undefined && { iconPosition: item.iconPosition }),
         ...(item.iconTheme !== undefined && { iconTheme: item.iconTheme }),
+        ...(item.typeIcon !== undefined && { typeIcon: item.typeIcon }),
         ...(item.badgeShape !== undefined && { badgeShape: item.badgeShape }),
         ...(item.badgeColor !== undefined && { badgeColor: item.badgeColor }),
         ...(item.badgeIcon !== undefined && { badgeIcon: item.badgeIcon }),
@@ -225,7 +226,7 @@ export class BdsTabGroup {
       }, {});
   }
 
-  private renderIcon = (Icon, Theme, disable, error) => {
+  private renderIcon = (Icon, Theme, Type, disable, error) => {
     return (
       <bds-icon
         class={{ 
@@ -235,6 +236,7 @@ export class BdsTabGroup {
         size="x-small"
         name={Icon}
         theme={Theme}
+        type={Type}
       ></bds-icon>
     );
   };
@@ -301,7 +303,7 @@ export class BdsTabGroup {
                       onKeyDown={(ev) => this.handleKeyDown(ev, item)}
                     >
                       {item.iconPosition === 'left' && item.icon
-                        ? this.renderIcon(item.icon, item.iconTheme, item.disable, item.error)
+                        ? this.renderIcon(item.icon, item.iconTheme, item.typeIcon, item.disable, item.error)
                         : ''}
                       {item.badgePosition === 'left' && item.badge
                         ? this.renderBadge(
@@ -323,7 +325,7 @@ export class BdsTabGroup {
                         {item.label}
                       </bds-typo>
                       {item.iconPosition === 'right' && item.icon
-                        ? this.renderIcon(item.icon, item.iconTheme, item.disable, item.error)
+                        ? this.renderIcon(item.icon, item.iconTheme, item.typeIcon, item.disable, item.error)
                         : ''}
                       {item.badgePosition === 'right' && item.badge
                         ? this.renderBadge(

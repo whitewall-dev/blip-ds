@@ -23,10 +23,11 @@
 | `headerStyle`    | `header-style`    | Inline styles to be applied to the tab group header element.                                                        | `string`  | `null`      |
 | `icon`           | `icon`            | The icon to be shown at the Tab item.                                                                               | `string`  | `null`      |
 | `iconPosition`   | `icon-position`   | The position of the icon at the Tab item ('left', 'right').                                                         | `string`  | `'left'`    |
-| `iconTheme`      | `icon-theme`      | The theme of the icon at the Tab item ('solid', 'outline', 'emoji', 'logos').                                       | `string`  | `'outline'` |
+| `iconTheme`      | `icon-theme`      | The theme of the icon at the Tab item ('solid', 'outline').                                                         | `string`  | `'outline'` |
 | `label`          | `label`           | The text to be shown at the Tab item.                                                                               | `string`  | `null`      |
 | `numberElement`  | `number-element`  | Use to set number of tabItem.                                                                                       | `number`  | `null`      |
 | `open`           | `open`            | Used to open/close the Tab item.                                                                                    | `boolean` | `false`     |
+| `typeIcon`       | `type-icon`       | The type of the icon at the Tab item ('icon', 'logo', 'emoji').                                                     | `string`  | `'icon'`    |
 
 
 ## Events

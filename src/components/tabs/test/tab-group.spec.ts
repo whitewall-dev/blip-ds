@@ -490,4 +490,19 @@ describe('bds-tab-group', () => {
       margin: 'auto'
     });
   });
+
+  it('renders a logo as the tab icon', async () => {
+    jest.spyOn(BdsTabGroup.prototype, 'componentDidLoad').mockImplementation(() => {});
+
+    const page = await newSpecPage({
+      components: [BdsTabGroup, BdsTabItem],
+      html: `<bds-tab-group>
+        <bds-tab-item label="RCS" icon="google-rcs" type-icon="logo">RCS</bds-tab-item>
+      </bds-tab-group>`,
+      supportsShadowDom: false,
+    });
+
+    const icon = page.root.querySelector('bds-icon[name="google-rcs"]');
+    expect(icon.getAttribute('type')).toBe('logo');
+  });
 });
