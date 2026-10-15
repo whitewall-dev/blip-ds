@@ -14,12 +14,14 @@ export class BdsCarousel {
   private frame?: HTMLElement;
   private themeProviderArrows?: any;
   private frameRepeater?: HTMLElement;
-  private incrementSeconds?: any;
+  private autoplayTimer?: ReturnType<typeof setTimeout>;
+  private autoplayStartedAt = 0;
+  private autoplayElapsed = 0;
+  private autoplaySuspended = false;
 
   @Element() element: HTMLElement;
 
   @State() itemActivated = 1;
-  @State() seconds = 0;
   @State() internalItens: Itens[];
   @State() isWhole = 0;
   @State() heightCarousel?: number = 240;
@@ -105,8 +107,6 @@ export class BdsCarousel {
    */
   @Prop() dtButtonNext?: string = null;
 
-  @State() secondsLimit: number = this.autoplayTimeout / 1000;
-
   /**
    * Emitted when active frame value.
    */
@@ -148,7 +148,21 @@ export class BdsCarousel {
   }
 
   componentDidLoad() {
-    this.startCountSeconds();
+    this.startAutoplayTimer();
+  }
+
+  connectedCallback() {
+    if (this.autoplaySuspended) {
+      this.autoplaySuspended = false;
+      this.startAutoplayTimer();
+    }
+  }
+
+  disconnectedCallback() {
+    if (this.autoplayTimer !== undefined) {
+      this.stopAutoplayTimer();
+      this.autoplaySuspended = true;
+    }
   }
 
   @Watch('itemActivated')
@@ -168,14 +182,9 @@ export class BdsCarousel {
 
   @Watch('autoplayTimeout')
   protected autoplayTimeoutChanged(): void {
-    this.secondsLimit = this.autoplayTimeout / 1000;
-  }
-
-  @Watch('seconds')
-  protected secondsChanged(): void {
-    if (this.seconds >= this.secondsLimit) {
-      this.nextSlide();
-      this.seconds = 0;
+    if (this.autoplayTimer !== undefined) {
+      this.stopAutoplayTimer();
+      this.startAutoplayTimer();
     }
   }
 
@@ -201,12 +210,28 @@ export class BdsCarousel {
     this.isWhole = ItensElement.length - this.slidePerPage * floor;
   };
 
-  private startCountSeconds = () => {
-    if (this.autoplay) {
-      this.incrementSeconds = setInterval(() => {
-        this.seconds += 0.1;
-      }, 100);
-    }
+  // A single timeout per slide instead of a state-backed ticker, so autoplay doesn't re-render the carousel
+  // while waiting. Elapsed time is kept across pauses so resuming matches the CSS progress animation.
+  private startAutoplayTimer = () => {
+    if (!this.autoplay || this.autoplayTimer !== undefined) return;
+    this.autoplayStartedAt = Date.now();
+    this.autoplayTimer = setTimeout(() => {
+      this.autoplayTimer = undefined;
+      this.nextSlide();
+    }, Math.max(0, this.autoplayTimeout - this.autoplayElapsed));
+  };
+
+  private stopAutoplayTimer = () => {
+    if (this.autoplayTimer === undefined) return;
+    clearTimeout(this.autoplayTimer);
+    this.autoplayTimer = undefined;
+    this.autoplayElapsed += Date.now() - this.autoplayStartedAt;
+  };
+
+  private restartAutoplayTimer = () => {
+    this.stopAutoplayTimer();
+    this.autoplayElapsed = 0;
+    this.startAutoplayTimer();
   };
 
   private updateHeight = (itemsElement) => {
@@ -254,9 +279,7 @@ export class BdsCarousel {
     } else {
       this.itemActivated = this.itemActivated + 1;
     }
-    clearInterval(this.incrementSeconds);
-    this.seconds = 0;
-    this.startCountSeconds();
+    this.restartAutoplayTimer();
   }
 
   @Method()
@@ -270,29 +293,25 @@ export class BdsCarousel {
     } else {
       this.itemActivated = this.itemActivated - 1;
     }
-    clearInterval(this.incrementSeconds);
-    this.seconds = 0;
-    this.startCountSeconds();
+    this.restartAutoplayTimer();
   }
 
   @Method()
   async setActivated(item: number): Promise<void> {
     this.itemActivated = item;
-    clearInterval(this.incrementSeconds);
-    this.seconds = 0;
-    this.startCountSeconds();
+    this.restartAutoplayTimer();
     this.autoplayState = 'running';
   }
 
   @Method()
   async pauseAutoplay(): Promise<void> {
-    clearInterval(this.incrementSeconds);
+    this.stopAutoplayTimer();
     this.autoplayState = 'paused';
   }
 
   @Method()
   async runAutoplay(): Promise<void> {
-    this.startCountSeconds();
+    this.startAutoplayTimer();
     this.autoplayState = 'running';
   }
 
@@ -368,10 +387,8 @@ export class BdsCarousel {
   private boundItems = () => {
     if (this.endX < this.startX) {
       this.nextSlide();
-      this.seconds = 0;
     } else if (this.endX > this.startX) {
       this.prevSlide();
-      this.seconds = 0;
     }
   };
 
