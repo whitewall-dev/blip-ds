@@ -91,14 +91,33 @@ describe('bds-tab-group', () => {
     expect(shouldSlide).toBeFalsy();
   });
 
-  it('should handle interval setup and cleanup', () => {
+  it('should observe header size instead of polling, and clean up', () => {
+    const observe = jest.fn();
+    const disconnect = jest.fn();
+    let resizeCallback: () => void;
+    (global as any).ResizeObserver = jest.fn((cb) => {
+      resizeCallback = cb;
+      return { observe, disconnect };
+    });
+
     const component = new BdsTabGroup();
+    const header = { offsetWidth: 100 } as HTMLElement;
+    const slide = { offsetWidth: 200 } as HTMLElement;
+    component['headerElement'] = header;
+    component['headerSlideElement'] = slide;
 
     component.connectedCallback();
-    expect(window.setInterval).toHaveBeenCalled();
+    expect(window.setInterval).not.toHaveBeenCalled();
+    expect(observe).toHaveBeenCalledWith(header, { box: 'border-box' });
+    expect(observe).toHaveBeenCalledWith(slide, { box: 'border-box' });
+
+    resizeCallback();
+    expect(component.isSlideTabs).toBe(true);
 
     component.disconnectedCallback();
-    expect(window.clearInterval).toHaveBeenCalledWith(123);
+    expect(disconnect).toHaveBeenCalled();
+
+    delete (global as any).ResizeObserver;
   });
 
   it('should emit events correctly', () => {
@@ -232,22 +251,14 @@ describe('bds-tab-group', () => {
     }).not.toThrow();
   });
 
-  it('should handle events disabled setup', () => {
+  it('should refresh items when a tab is disabled', () => {
     const component = new BdsTabGroup();
+    const tabs = [{ label: 'Tab 1', disable: true }] as any;
+    component['tabItensElement'] = tabs;
 
-    const mockTabElement = {
-      addEventListener: jest.fn(),
-    };
-    
-    const mockElements = [mockTabElement];
+    component.onTabDisabled();
 
-    component['getEventsDisable'](mockElements);
-
-    expect(mockTabElement.addEventListener).toHaveBeenCalledWith(
-      'tabDisabled',
-      expect.any(Function),
-      false
-    );
+    expect(component.internalItens).toEqual([expect.objectContaining({ label: 'Tab 1', disable: true })]);
   });
 
   it('should handle componentWillRender safely', () => {
