@@ -200,7 +200,7 @@ describe('bds-modal', () => {
     await page.waitForChanges();
 
     // Add a small delay to ensure event processing completes
-    await page.waitForTimeout(100);
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     // Check if the modal was closed by clicking outzone
     open = await element.getProperty('open');

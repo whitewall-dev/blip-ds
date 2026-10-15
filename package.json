@@ -115,7 +115,7 @@
     "jest-cli": "27.4.5",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.2.5",
-    "puppeteer": "^14.0.0",
+    "puppeteer": "^24.0.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-scripts": "^5.0.1",
@@ -174,5 +174,13 @@
       "last 1 safari version"
     ]
   },
-  "license": "MIT"
+  "license": "MIT",
+  "allowScripts": {
+    "puppeteer": true,
+    "esbuild": true,
+    "core-js": false,
+    "core-js-pure": false,
+    "highlight.js": false,
+    "@parcel/watcher": false
+  }
 }

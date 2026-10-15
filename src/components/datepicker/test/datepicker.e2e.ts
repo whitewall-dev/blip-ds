@@ -161,7 +161,7 @@ describe('bds-datepicker e2e tests', () => {
       await page.waitForChanges();
 
       // Give it a bit more time to process the click outside
-      await page.waitForTimeout(100);
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       const menu = await page.find('bds-datepicker >>> .datepicker__menu');
       // Just verify the menu exists - the actual behavior may vary

@@ -19,7 +19,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 26
           cache: 'npm'
 
       - name: NPM Install and build
@@ -31,5 +31,8 @@ jobs:
           npm run eslint
 
       - name: Test
+        # puppeteer's bundled Chrome download doesn't extract on Node 26; use the runner's Chrome
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
         run: |
           npm run test

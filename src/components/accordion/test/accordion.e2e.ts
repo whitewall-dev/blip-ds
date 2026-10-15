@@ -61,7 +61,7 @@ describe('bds-accordion e2e tests', () => {
       await page.waitForChanges();
       
       // Wait for animation to complete (500ms timeout in component)
-      await page.waitForTimeout(600);
+      await new Promise((resolve) => setTimeout(resolve, 600));
 
       const accordionBody = await page.find('bds-accordion-body >>> .accordion_body');
       expect(accordionBody).toHaveClass('accordion_body_isOpen');
@@ -74,7 +74,7 @@ describe('bds-accordion e2e tests', () => {
       await page.waitForChanges();
       
       // Wait for animation to complete
-      await page.waitForTimeout(600);
+      await new Promise((resolve) => setTimeout(resolve, 600));
 
       const accordionBody = await page.find('bds-accordion-body >>> .accordion_body');
       expect(accordionBody).toHaveClass('accordion_body_isOpen');
@@ -86,7 +86,7 @@ describe('bds-accordion e2e tests', () => {
       // First open the accordion
       await accordion.callMethod('open');
       await page.waitForChanges();
-      await page.waitForTimeout(600);
+      await new Promise((resolve) => setTimeout(resolve, 600));
 
       // Then close it
       await accordion.callMethod('close');

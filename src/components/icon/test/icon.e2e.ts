@@ -72,7 +72,7 @@ describe('bds-icon e2e tests', () => {
 
     it('should render inner content container', async () => {
       await page.waitForChanges();
-      await page.waitForTimeout(100);
+      await new Promise((resolve) => setTimeout(resolve, 100));
       
       const innerDiv = await page.find('bds-icon >>> .icon-inner');
       expect(innerDiv).toBeTruthy();
