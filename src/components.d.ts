@@ -3311,7 +3311,7 @@ export namespace Components {
          */
         "iconPosition"?: string;
         /**
-          * The theme of the icon at the Tab item ('solid', 'outline', 'emoji', 'logos').
+          * The theme of the icon at the Tab item ('solid', 'outline').
           * @default 'outline'
          */
         "iconTheme"?: string;
@@ -3331,6 +3331,11 @@ export namespace Components {
          */
         "open"?: boolean;
         "reciveNumber": (number: any) => Promise<void>;
+        /**
+          * The type of the icon at the Tab item ('icon', 'logo', 'emoji').
+          * @default 'icon'
+         */
+        "typeIcon"?: string;
     }
     interface BdsTabPanel {
         /**
@@ -8617,7 +8622,7 @@ declare namespace LocalJSX {
          */
         "iconPosition"?: string;
         /**
-          * The theme of the icon at the Tab item ('solid', 'outline', 'emoji', 'logos').
+          * The theme of the icon at the Tab item ('solid', 'outline').
           * @default 'outline'
          */
         "iconTheme"?: string;
@@ -8637,6 +8642,11 @@ declare namespace LocalJSX {
           * @default false
          */
         "open"?: boolean;
+        /**
+          * The type of the icon at the Tab item ('icon', 'logo', 'emoji').
+          * @default 'icon'
+         */
+        "typeIcon"?: string;
     }
     interface BdsTabPanel {
         /**
@@ -9686,6 +9696,7 @@ declare namespace LocalJSX {
         "icon": string;
         "iconPosition": string;
         "iconTheme": string;
+        "typeIcon": string;
         "badge": boolean;
         "badgeShape": string;
         "badgeColor": string;

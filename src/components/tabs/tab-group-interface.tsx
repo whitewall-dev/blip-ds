@@ -10,6 +10,7 @@ export interface Itens {
   icon?: string;
   iconPosition?: string;
   iconTheme?: string;
+  typeIcon?: string;
   badgeShape?: string;
   badgeColor?: string;
   badgeIcon?: string;

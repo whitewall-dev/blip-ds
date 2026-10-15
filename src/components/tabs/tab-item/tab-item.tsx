@@ -23,9 +23,13 @@ export class BdsTabItem {
    */
   @Prop() iconPosition?: string = 'left';
   /**
-   * The theme of the icon at the Tab item ('solid', 'outline', 'emoji', 'logos').
+   * The theme of the icon at the Tab item ('solid', 'outline').
    */
   @Prop() iconTheme?: string = 'outline';
+  /**
+   * The type of the icon at the Tab item ('icon', 'logo', 'emoji').
+   */
+  @Prop() typeIcon?: string = 'icon';
   /**
    * The shape of the badge to be shown at the Tab item ('circle', 'square', 'triangle', 'triangle-reverse', 'polygon').
    */

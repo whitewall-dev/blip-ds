@@ -53817,19 +53817,13 @@
           "name": "icon-theme",
           "values": [
             {
-              "name": "emoji"
-            },
-            {
-              "name": "logos"
-            },
-            {
               "name": "outline"
             },
             {
               "name": "solid"
             }
           ],
-          "description": "The theme of the icon at the Tab item ('solid', 'outline', 'emoji', 'logos').\n\nHint: Default: `'outline'` | Allowed: `emoji`, `logos`, `outline`, `solid`"
+          "description": "The theme of the icon at the Tab item ('solid', 'outline').\n\nHint: Default: `'outline'` | Allowed: `outline`, `solid`"
         },
         {
           "name": "label",
@@ -53850,6 +53844,21 @@
         {
           "name": "open",
           "description": "Used to open/close the Tab item.\n\nHint: Default: `false`"
+        },
+        {
+          "name": "type-icon",
+          "values": [
+            {
+              "name": "emoji"
+            },
+            {
+              "name": "icon"
+            },
+            {
+              "name": "logo"
+            }
+          ],
+          "description": "The type of the icon at the Tab item ('icon', 'logo', 'emoji').\n\nHint: Default: `'icon'` | Allowed: `emoji`, `icon`, `logo`"
         }
       ]
     },
