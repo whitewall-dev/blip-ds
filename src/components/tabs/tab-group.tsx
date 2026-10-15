@@ -1,4 +1,4 @@
-import { Component, h, Host, Element, State, Prop, EventEmitter, Event } from '@stencil/core';
+import { Component, h, Host, Element, State, Prop, EventEmitter, Event, Listen } from '@stencil/core';
 import { Itens } from './tab-group-interface';
 
 @Component({
@@ -11,7 +11,7 @@ export class BdsTabGroup {
   private tabItensSlideElement?: NodeListOf<HTMLElement> = null;
   private headerElement?: HTMLElement;
   private headerSlideElement?: HTMLElement;
-  private isSlide?: number;
+  private resizeObserver?: ResizeObserver;
 
   @Element() private element: HTMLElement;
 
@@ -55,36 +55,44 @@ export class BdsTabGroup {
     this.setnumberElement();
     this.setFirstActive();
     this.setInternalItens(Array.from(this.tabItensElement));
-    this.getEventsDisable(Array.from(this.tabItensElement));
   }
 
   componentDidLoad() {
     this.tabItensSlideElement = this.element.shadowRoot.querySelectorAll(
       '.tab_group__header__itens__item',
     ) as NodeListOf<HTMLElement>;
+    this.observeHeaderSize();
   }
 
   connectedCallback() {
-    this.isSlide = window.setInterval(() => {
-      this.isSlideTabs = this.checkSlideTabs();
-    }, 100);
+    // refs only exist after the first render, so the first observe happens in
+    // componentDidLoad; this re-attaches when the element is moved in the DOM
+    this.observeHeaderSize();
   }
-
-  private getEventsDisable = (ItensElement): void => {
-    ItensElement.forEach((element) => {
-      element.addEventListener(
-        'tabDisabled',
-        () => {
-          this.setInternalItens(Array.from(this.tabItensElement));
-        },
-        false,
-      );
-    });
-  };
 
   disconnectedCallback() {
-    window.clearInterval(this.isSlide);
+    this.resizeObserver?.disconnect();
+    this.resizeObserver = undefined;
   }
+
+  @Listen('tabDisabled')
+  onTabDisabled() {
+    this.setInternalItens(Array.from(this.tabItensElement));
+  }
+
+  // The tabs overflow when the header shrinks or the tab strip grows (tabs added,
+  // labels/badges changed, fonts loaded), so watch both instead of polling layout.
+  private observeHeaderSize = (): void => {
+    if (typeof ResizeObserver === 'undefined') return;
+    if (!this.headerElement || !this.headerSlideElement) return;
+
+    this.resizeObserver?.disconnect();
+    this.resizeObserver = new ResizeObserver(() => {
+      this.isSlideTabs = this.checkSlideTabs();
+    });
+    this.resizeObserver.observe(this.headerElement, { box: 'border-box' });
+    this.resizeObserver.observe(this.headerSlideElement, { box: 'border-box' });
+  };
 
   private checkSlideTabs = (): boolean => {
     if (this.headerElement || this.headerSlideElement) {
@@ -92,6 +100,7 @@ export class BdsTabGroup {
         return true;
       }
     }
+    return false;
   };
 
   private setFirstActive = () => {
