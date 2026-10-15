@@ -1,0 +1,1 @@
+import{r as a,h as o}from"./p-Cawn__Z9.js";const t=class{constructor(o){a(this,o)}render(){return o("div",{key:"3396581a29f5affa6477a93fc904c53f1b5ed9f7",class:"modal__action"},o("slot",{key:"35437ea3b6493a4df5c8100551c98282661175de"}))}};t.style=".modal__action{display:flex;padding-top:16px;bottom:32px;right:32px}";export{t as bds_modal_action}
