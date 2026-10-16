@@ -1,25 +1,12 @@
 import { newSpecPage } from '@stencil/core/testing';
-
-// Mock fetch globally
-const mockFetch = jest.fn();
-global.fetch = mockFetch;
-
 import { BdsIllustration } from '../illustration';
+import defaultAssets from '../../../assets/blip-tokens/assets_illustrations_default.json';
+import screensAssets from '../../../assets/blip-tokens/assets_illustrations_screens.json';
+
+// the asset buckets are loaded with a dynamic import, which resolves after the first render
+const flushAssetLoad = () => new Promise((resolve) => setTimeout(resolve));
 
 describe('bds-illustration', () => {
-  beforeEach(() => {
-    mockFetch.mockClear();
-    mockFetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue({
-        'asset-default-test-svg': 'PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiPjwvc3ZnPg==',
-      }),
-    });
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   it('should create component', () => {
     const component = new BdsIllustration();
     expect(component).toBeTruthy();
@@ -59,18 +46,12 @@ describe('bds-illustration', () => {
     });
 
     it('should render default placeholder when no illustration content', async () => {
-      // Mock fetch to return a never-resolving promise so we can check initial state
-      mockFetch.mockClear();
-      mockFetch.mockImplementation(() => new Promise(() => {
-        // Promise never resolves
-      }));
 
       const page = await newSpecPage({
         components: [BdsIllustration],
         html: `<bds-illustration name="test"></bds-illustration>`,
       });
 
-      // Check initial state before fetch completes
       const defaultDiv = page.root.shadowRoot.querySelector('.default');
       expect(defaultDiv).toBeTruthy();
     });
@@ -107,11 +88,6 @@ describe('bds-illustration', () => {
     });
 
     it('should render with data-test attribute on default div', async () => {
-      // Mock fetch to delay response so we can check initial state
-      mockFetch.mockClear();
-      mockFetch.mockImplementation(() => new Promise(() => {
-        // Promise never resolves
-      }));
 
       const page = await newSpecPage({
         components: [BdsIllustration],
@@ -171,50 +147,32 @@ describe('bds-illustration', () => {
   });
 
   describe('Illustration Loading', () => {
-    it('should call fetch when component loads', async () => {
-      (fetch as jest.Mock).mockClear();
-
+    it('should set illustration content from the type bucket', async () => {
       const page = await newSpecPage({
         components: [BdsIllustration],
-        html: `<bds-illustration type="default" name="test"></bds-illustration>`,
+        html: `<bds-illustration type="default" name="accessibility-1"></bds-illustration>`,
       });
 
-      expect(fetch).toHaveBeenCalled();
-      expect(page.rootInstance.name).toBe('test');
-      expect(page.rootInstance.type).toBe('default');
-    });
-
-    it('should set illustration content after successful fetch', async () => {
-      const mockSvgContent = 'PHN2ZyBmaWxsPSIjMDAwIj48L3N2Zz4=';
-      (fetch as jest.Mock).mockClear();
-      (fetch as jest.Mock).mockResolvedValue({
-        json: jest.fn().mockResolvedValue({
-          'asset-default-test-svg': mockSvgContent,
-        }),
-      });
-
-      const page = await newSpecPage({
-        components: [BdsIllustration],
-        html: `<bds-illustration type="default" name="test"></bds-illustration>`,
-      });
-
-      // Wait for fetch to complete
+      await flushAssetLoad();
       await page.waitForChanges();
 
-      expect(page.rootInstance.IllustrationContent).toBe(mockSvgContent);
+      expect(page.rootInstance.IllustrationContent).toBe(defaultAssets['asset-default-accessibility-1-svg']);
+      const img = page.root.shadowRoot.querySelector('img');
+      expect(img.getAttribute('src')).toBe(
+        `data:image/svg+xml;base64,${defaultAssets['asset-default-accessibility-1-svg']}`,
+      );
     });
 
-    it('should construct correct API URL for different types', async () => {
-      (fetch as jest.Mock).mockClear();
-
+    it('should load the bucket that matches the type', async () => {
       const page = await newSpecPage({
         components: [BdsIllustration],
-        html: `<bds-illustration type="screens" name="mobile"></bds-illustration>`,
+        html: `<bds-illustration type="screens" name="dashboard"></bds-illustration>`,
       });
 
-      expect(fetch).toHaveBeenCalled();
-      expect(page.rootInstance.type).toBe('screens');
-      expect(page.rootInstance.name).toBe('mobile');
+      await flushAssetLoad();
+      await page.waitForChanges();
+
+      expect(page.rootInstance.IllustrationContent).toBe(screensAssets['asset-screens-dashboard-svg']);
     });
   });
 
@@ -225,10 +183,13 @@ describe('bds-illustration', () => {
         html: `<bds-illustration name="custom-illustration"></bds-illustration>`,
       });
 
+      await flushAssetLoad();
+      await page.waitForChanges();
+
       expect(page.rootInstance.name).toBe('custom-illustration');
-      expect(fetch).toHaveBeenCalled();
-      const fetchCall = (fetch as jest.Mock).mock.calls[0];
-      expect(fetchCall[0]).toContain('custom-illustration.json');
+      // unknown illustrations keep the placeholder
+      expect(page.rootInstance.IllustrationContent).toBeUndefined();
+      expect(page.root.shadowRoot.querySelector('.default')).toBeTruthy();
     });
 
     it('should accept alt property', async () => {
@@ -250,12 +211,6 @@ describe('bds-illustration', () => {
     });
 
     it('should handle null dataTest gracefully', async () => {
-      // Mock fetch to delay response so we can check initial state
-      mockFetch.mockClear();
-      mockFetch.mockImplementation(() => new Promise(() => {
-        // Promise never resolves
-      }));
-
       const page = await newSpecPage({
         components: [BdsIllustration],
         html: `<bds-illustration name="test"></bds-illustration>`,
@@ -300,10 +255,11 @@ describe('bds-illustration', () => {
         html: `<bds-illustration name=""></bds-illustration>`,
       });
 
+      await flushAssetLoad();
+      await page.waitForChanges();
+
       expect(page.rootInstance.name).toBe('');
-      expect(fetch).toHaveBeenCalled();
-      const fetchCall = (fetch as jest.Mock).mock.calls[0];
-      expect(fetchCall[0]).toContain('.json');
+      expect(page.root.shadowRoot.querySelector('.default')).toBeTruthy();
     });
 
     it('should not crash when no name is provided', async () => {
@@ -312,8 +268,11 @@ describe('bds-illustration', () => {
         html: `<bds-illustration></bds-illustration>`,
       });
 
+      await flushAssetLoad();
+      await page.waitForChanges();
+
       expect(page.root).toBeTruthy();
-      expect(fetch).toHaveBeenCalled();
+      expect(page.root.shadowRoot.querySelector('.default')).toBeTruthy();
     });
 
     it('should handle special characters in name', async () => {
@@ -323,22 +282,6 @@ describe('bds-illustration', () => {
       });
 
       expect(page.rootInstance.name).toBe('test-with-dashes_and_underscores');
-    });
-  });
-
-  describe('Package Version', () => {
-    it('should use blip-tokens version from package.json in API URL', async () => {
-      const page = await newSpecPage({
-        components: [BdsIllustration],
-        html: `<bds-illustration name="test"></bds-illustration>`,
-      });
-
-      await page.waitForChanges();
-
-      expect(fetch).toHaveBeenCalled();
-      const fetchCall = (fetch as jest.Mock).mock.calls[0];
-      expect(fetchCall[0]).toContain('blip-tokens@');
-      expect(fetchCall[0]).toMatch(/blip-tokens@[\d.]+/);
     });
   });
 });

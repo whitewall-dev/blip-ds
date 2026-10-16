@@ -23,7 +23,7 @@ describe('bds-radio-group', () => {
   it('should render with default props', async () => {
     expect(page.root.tagName).toBe('BDS-RADIO-GROUP');
     expect(page.root.hasAttribute('value')).toBe(false);
-    expect(page.root.innerHTML).toBe('<!----> ');
+    expect(page.root.innerHTML).toBe('<!---->');
   });
 
   it('should have default values', () => {

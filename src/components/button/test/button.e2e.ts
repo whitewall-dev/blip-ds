@@ -68,7 +68,9 @@ describe('bds-button e2e tests', () => {
       const button = await page.find('bds-button');
       const bdsClickEvent = await button.spyOnEvent('bdsClick');
 
-      await button.click();
+      // click the rendered button: the inline host box spans the whole line, so its center misses it
+      const nativeButton = await page.find('bds-button >>> button');
+      await nativeButton.click();
       await page.waitForChanges();
 
       expect(bdsClickEvent).toHaveReceivedEvent();
