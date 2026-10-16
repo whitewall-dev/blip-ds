@@ -6,28 +6,33 @@ const originalClearTimeout = global.clearTimeout;
 const originalClearInterval = global.clearInterval;
 const originalConsoleWarn = console.warn;
 
+// e2e tests drive a real browser and wait on real time, so they keep the native timers
+const isE2E = /\.e2e\.tsx?$/.test(expect.getState().testPath ?? '');
+
 beforeEach(() => {
   jest.clearAllTimers();
 
-  // Mock timers to prevent setTimeout issues in tests
-  // https://github.com/stenciljs/core/issues/3292
+  if (!isE2E) {
+    // Mock timers to prevent setTimeout issues in tests
+    // https://github.com/stenciljs/core/issues/3292
 
-  global.setTimeout = jest.fn((fn, _delay) => {
-    if (typeof fn === 'function') {
-      // Execute immediately for tests
-      fn();
-    }
-    return 1 as any;
-  }) as any;
-  global.setInterval = jest.fn((fn, _delay) => {
-    if (typeof fn === 'function') {
-      // Execute immediately and only once for tests
-      fn();
-    }
-    return 1 as any;
-  }) as any;
-  global.clearTimeout = jest.fn();
-  global.clearInterval = jest.fn();
+    global.setTimeout = jest.fn((fn, _delay) => {
+      if (typeof fn === 'function') {
+        // Execute immediately for tests
+        fn();
+      }
+      return 1 as any;
+    }) as any;
+    global.setInterval = jest.fn((fn, _delay) => {
+      if (typeof fn === 'function') {
+        // Execute immediately and only once for tests
+        fn();
+      }
+      return 1 as any;
+    }) as any;
+    global.clearTimeout = jest.fn();
+    global.clearInterval = jest.fn();
+  }
 
   // Mock console.warn to prevent immutable warnings in tests
   // https://github.com/stenciljs/core/issues/2832
