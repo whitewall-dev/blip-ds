@@ -31,8 +31,5 @@ jobs:
           npm run eslint
 
       - name: Test
-        # puppeteer's bundled Chrome download doesn't extract on Node 26; use the runner's Chrome
-        env:
-          CHROME_PATH: /usr/bin/google-chrome
         run: |
           npm run test

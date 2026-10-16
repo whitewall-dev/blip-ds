@@ -146,6 +146,9 @@
       "optional": true
     }
   },
+  "overrides": {
+    "yauzl": "^3.2.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/takenet/blip-ds.git"
