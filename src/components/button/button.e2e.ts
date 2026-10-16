@@ -19,8 +19,10 @@ describe('button e2e tests', () => {
 
     expect(inputValue).toBe('Blip-ds');
 
-    const bdsButton = await page.find('bds-button');
+    // click the rendered button: the inline host box spans the whole line, so its center misses it
+    const bdsButton = await page.find('bds-button >>> button');
     await bdsButton.click();
+    await page.waitForChanges();
 
     expect(formSubmit).toHaveReceivedEvent();
   });

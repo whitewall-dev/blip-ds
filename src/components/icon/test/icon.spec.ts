@@ -431,7 +431,7 @@ describe('bds-icon', () => {
       });
 
       page.rootInstance.name = 'edit';
-      page.rootInstance.loadIcon();
+      await page.rootInstance.loadIcon();
 
       expect(page.rootInstance.ariaLabel).toBe('edit');
     });
@@ -445,7 +445,7 @@ describe('bds-icon', () => {
       });
 
       page.rootInstance.name = 'edit';
-      page.rootInstance.loadIcon();
+      await page.rootInstance.loadIcon();
 
       expect(page.rootInstance.ariaLabel).toBe('Custom Label');
     });
@@ -565,7 +565,7 @@ describe('bds-icon', () => {
       const iconInstance = page.rootInstance as { svgContent?: string | undefined };
       iconInstance.svgContent = undefined;
 
-      page.rootInstance.loadIcon();
+      await page.rootInstance.loadIcon();
 
       // Since loadIcon checks both Build.isBrowser AND isVisible,
       // setSvgContent should not be called when isVisible is false

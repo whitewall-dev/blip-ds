@@ -215,7 +215,7 @@ describe('bds-input-phone-number', () => {
       const input = page.root.shadowRoot.querySelector('input.input__container__text');
       expect(input).toBeTruthy();
       expect(input.type).toBe('phonenumber');
-      expect(input.pattern).toBe('/^(\\(?\\+?[0-9]*\\)?)?[0-9_\\- \\(\\)]*$/');
+      expect(input.pattern).toBe('^(\\(?\\+?[0-9]*\\)?)?[0-9_\\- \\(\\)]*$');
     });
 
     it('should apply correct CSS classes based on state', async () => {
