@@ -31,6 +31,8 @@ $icon-xx-small: 12px;
   box-sizing: content-box !important;
 
   svg {
+    // inline, it sits on the text baseline and renders a pixel below its box
+    display: block;
     fill: currentColor;
     width: 100%;
     min-width: 100%;

@@ -132,4 +132,19 @@ describe('bds-icon e2e tests', () => {
       expect(dataTest).toBe('test-icon');
     });
   });
+
+  it('fills its box instead of sitting on the text baseline', async () => {
+    const alignedPage = await newE2EPage({
+      html: `<div style="line-height: 24px"><bds-icon name="attention" size="x-small"></bds-icon></div>`,
+    });
+    await alignedPage.waitForFunction(() => document.querySelector('bds-icon').shadowRoot.querySelector('svg'));
+
+    const offset = await alignedPage.evaluate(() => {
+      const host = document.querySelector('bds-icon');
+      const svg = host.shadowRoot.querySelector('svg');
+      return svg.getBoundingClientRect().top - host.getBoundingClientRect().top;
+    });
+
+    expect(offset).toBe(0);
+  });
 });
