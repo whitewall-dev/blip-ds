@@ -1,1 +1,0 @@
-import{r as a,h as r,H as e}from"./p-Cawn__Z9.js";const d=class{constructor(r){a(this,r)}render(){return r(e,{key:"0d9f9d4edd7a5bcc9841762b88d90db8e97bd1ea"},r("slot",{key:"1bc9ca332c14b831b7a4ab96249436dad9acc6a6"}))}};d.style=".sc-bds-table-header-h{display:table-header-group;border-bottom:1px solid var(--color-border-1, rgba(0, 0, 0, 0.2))}";export{d as bds_table_header}
